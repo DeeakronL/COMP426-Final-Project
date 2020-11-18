@@ -1,6 +1,9 @@
-import View from '/view.js';
-import Model from '/model.js';
+import View from './view.js';
+import Model from './model.js';
+import Controller from './controller.js';
 
 let model = new Model();
 let view = new View(model);
+let controller = new Controller(model, view);
+controller.setupTargets(0);
 $('body').append(view.div);
