@@ -1,5 +1,6 @@
 export default class View {
     constructor(model) {
+        this.setup = "not done";
         this.div = $(`<div class="main"></div>`);
         let window = $(`<div class="window"></div>`)
             .css('position','fixed')
@@ -20,19 +21,32 @@ export default class View {
         this.div.append(menu);
 
         let scoreboard = $(`<div class="score" style="top: 600px;position:fixed">Score: ${model.currentScore}</div>`);
-        let highScoreboard = $(`<div class="high" style="top: 650px;position:fixed">High Score (Default) : ${model.score.default}</div>`);
+        let highScoreboard1 = $(`<div class="highUp" style="top: 650px;position:fixed">High Score (Up): ${model.score.up}</div>`);
+        let highScoreboard2 = $(`<div class="highCareful" style="top: 670px;position:fixed">High Score (Careful): ${model.score.careful}</div>`);
+        let highScoreboard3 = $(`<div class="highQuick" style="top: 690px;position:fixed">High Score (Quick): ${model.score.quick}</div>`);
         this.div.append(scoreboard);
-        this.div.append(highScoreboard);
+        this.div.append(highScoreboard1);
+        this.div.append(highScoreboard2);
+        this.div.append(highScoreboard3);
         model.onScore((gameState) => {this.updateScore(gameState.currentScore)});
+        model.onStart((gameState) => {this.start()});
         model.onTimeOut((gameState) => {this.updateHighScore(gameState.mode, gameState.score)});
-        if(model.mode == 0){
+        model.onTimeOut((gameState) => {this.end()});
+        let view = this;
+        model.onModeChange((gameState) => {this.setupTargets(model.mode, view, model, view.setup)})
+        this.modeName = "";
+        this.targets = [];
+        this.window = window;
+        this.setupTargets(model.mode, this, model, this.setup);
+        /*if(model.mode == 0){
+            targets = [];
+            wind
             let target_loc_1 = randomCoords();
 
             let target_loc_2 = randomCoords();
 
             let target_loc_3 = randomCoords();
 
-            let targets = [];
             let target1 = new Target(10, "target", target_loc_1.x, target_loc_1.y, 0, model, "inactive");
             let target2 = new Target(10, "target", target_loc_2.x, target_loc_2.y, 1, model, "inactive");
             let target3 = new Target(10, "target", target_loc_3.x, target_loc_3.y, 2, model, "inactive");
@@ -43,10 +57,9 @@ export default class View {
             window.append(target1.div);
             window.append(target2.div);
             window.append(target3.div);
-        }
+            this.modeName = "Shoot 'em up";
+        } */
         
-
-        this.window = window;
         //let ui = $(`<div></div>`);
         let button1 = $(`<button style="width:100px;height:50px;border:1px solid #000" class="start">Start!</button>`)
             .css('position', 'absolute')
@@ -56,26 +69,132 @@ export default class View {
             .css('position', 'absolute')
             .css('left', '25px')
             .css('top', '60px');
-        let button3 = $(`<button style="width:50px;height:50px;border:1px solid #000" class="leftMode">${"<"}</button>`)
+        let button3 = $(`<button style="width:100px;height:50px;border:1px solid #000" class="modeName">${this.modeName}</button>`)
             .css('position', 'absolute')
             .css('left', '25px')
             .css('top', '110px');
-        let button4 = $(`<button style="width:50px;height:50px;border:1px solid #000" class="rightMode">${">"}</button>`)
+        let button4 = $(`<button style="width:50px;height:50px;border:1px solid #000" class="leftMode">${"<"}</button>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '160px');
+        let button5 = $(`<button style="width:50px;height:50px;border:1px solid #000" class="rightMode">${">"}</button>`)
             .css('position', 'absolute')
             .css('left', '75px')
-            .css('top', '110px');
+            .css('top', '160px');
         menu.append(button1);
         menu.append(button2);
         menu.append(button3);
         menu.append(button4);
+        menu.append(button5);
+        this.setup = "done";
     }
 
     createNewTarget(number, model, state) {
-        console.log("yay" + model);
-        let coords = randomCoords();
-        let newTarget = new Target(10, "target", coords.x, coords.y, number, model, state);
-        this.targets[number] = newTarget;
-        this.window.append(newTarget.div);
+        if(model.mode == 0 || model.mode == 2){
+            console.log("yay" + model);
+            let coords = randomCoords();
+            let newTarget = new Target(10, "target", coords.x, coords.y, number, model, state);
+            this.targets[number] = newTarget;
+            this.window.append(newTarget.div);
+        } else if (model.mode == 1){
+            console.log("yay" + model);
+            let coords1 = randomCoords();
+            let coords2 = randomCoords();
+            let newTarget1 = new Target(10, "target", coords1.x, coords1.y, number, model, state);
+            let newTarget2 = new Target(10, "target_inv", coords2.x, coords2.y, number, model, state);
+            this.targets[number] = newTarget1;
+            this.targets[number + 3] = newTarget2;
+            this.window.append(newTarget1.div);
+            this.window.append(newTarget2.div);
+        }
+    }
+
+    setupTargets(mode, view, model, setup){
+        if(mode == 0){
+            let targets = view.targets;
+            let window = view.window;
+            targets = [];
+            $(".target").remove();
+            let target_loc_1 = randomCoords();
+
+            let target_loc_2 = randomCoords();
+
+            let target_loc_3 = randomCoords();
+
+            let target1 = new Target(10, "target", target_loc_1.x, target_loc_1.y, 0, model, "inactive");
+            let target2 = new Target(10, "target", target_loc_2.x, target_loc_2.y, 1, model, "inactive");
+            let target3 = new Target(10, "target", target_loc_3.x, target_loc_3.y, 2, model, "inactive");
+            targets.push(target1);
+            targets.push(target2);
+            targets.push(target3);
+            view.targets = targets;
+            window.append(target1.div);
+            window.append(target2.div);
+            window.append(target3.div);
+            view.modeName = "Shoot 'em up";
+            if(setup == "done"){
+                $(".modeName").html(`${view.modeName}`);
+            }
+        } else if(mode == 1){
+            let targets = view.targets;
+            let window = view.window;
+            targets = [];
+            $(".target").remove();
+            let target_loc_1 = randomCoords();
+            let target_loc_11 = randomCoords();
+            let target_loc_2 = randomCoords();
+            let target_loc_21 = randomCoords();
+            let target_loc_3 = randomCoords();
+            let target_loc_31 = randomCoords();
+            let target1 = new Target(10, "target", target_loc_1.x, target_loc_1.y, 0, model, "inactive");
+            let target2 = new Target(10, "target", target_loc_2.x, target_loc_2.y, 1, model, "inactive");
+            let target3 = new Target(10, "target", target_loc_3.x, target_loc_3.y, 2, model, "inactive");
+            let target11 = new Target(10, "target_inv", target_loc_11.x, target_loc_11.y, 0, model, "inactive");
+            let target21 = new Target(10, "target_inv", target_loc_21.x, target_loc_21.y, 1, model, "inactive");
+            let target31 = new Target(10, "target_inv", target_loc_31.x, target_loc_31.y, 2, model, "inactive");
+            targets.push(target1);
+            targets.push(target2);
+            targets.push(target3);
+            targets.push(target11);
+            targets.push(target21);
+            targets.push(target31);
+            view.targets = targets;
+            window.append(target1.div);
+            window.append(target2.div);
+            window.append(target3.div);
+            window.append(target11.div);
+            window.append(target21.div);
+            window.append(target31.div);
+            view.modeName = "Shoot 'em careful";
+            if(setup == "done"){
+                $(".modeName").html(`${view.modeName}`);
+            }
+        } else if(mode == 2){
+            let targets = view.targets;
+            let window = view.window;
+            targets = [];
+            $(".target").remove();
+            let target_loc_1 = randomCoords();
+
+            let target_loc_2 = randomCoords();
+
+            let target_loc_3 = randomCoords();
+
+            let target1 = new Target(10, "target", target_loc_1.x, target_loc_1.y, 0, model, "inactive");
+            let target2 = new Target(10, "target", target_loc_2.x, target_loc_2.y, 1, model, "inactive");
+            let target3 = new Target(10, "target", target_loc_3.x, target_loc_3.y, 2, model, "inactive");
+            targets.push(target1);
+            targets.push(target2);
+            targets.push(target3);
+            view.targets = targets;
+            window.append(target1.div);
+            window.append(target2.div);
+            window.append(target3.div);
+            view.modeName = "Shoot 'em quick";
+            if(setup == "done"){
+                $(".modeName").html(`${view.modeName}`);
+            }
+        }
     }
 
     updateScore(score){
@@ -84,7 +203,41 @@ export default class View {
 
     updateHighScore(mode, score){
         if(mode == 0){
-            $(".high").html(`High Score (Default): ${score.default}`);
+            $(".highUp").html(`High Score (Up): ${score.up}`);
+        } else if (mode == 1){
+            $(".highCareful").html(`High Score (Careful): ${score.careful}`);
+        } else if (mode == 2){
+            $(".highQuick").html(`High Score (Quick): ${score.quick}`)
+        }
+    }
+
+    start() {
+        let div = $(`<img src="/game_start.png" class="game_start" draggable="false">`)
+            .css('position','absolute')
+            .css('left', "475px")
+            .css('top', "150px")
+            .css('pointer-events', 'none');
+        this.window.append(div);
+        let opacity = 100;
+        for(let i = 0; i < 100; i++){
+            opacity -= 1;
+            //console.log(opacity);
+            setTimeout(function () {$(`.game_start`).css(`opacity`, opacity/100);}, 1000);
+        }
+    }
+
+    end() {
+        let div = $(`<img src="/times_up.png" class="game_end" draggable="false">`)
+            .css('position','absolute')
+            .css('left', "475px")
+            .css('top', "150px")
+            .css('pointer-events', 'none');
+        this.window.append(div);
+        let opacity = 100;
+        for(let i = 0; i < 100; i++){
+            opacity -= 1;
+            //console.log(opacity);
+            setTimeout(function () {$(`.game_end`).css(`opacity`, opacity/100);}, 1000);
         }
     }
 }
@@ -101,15 +254,20 @@ class Target {
         this.y = y;
         this.model = model;
         this.state = state;
+        this.type = type;
         model.onStart((gameState) => {this.update("active")});
         model.onTimeOut((gameState) => {this.update("inactive")});
     }
 
     isShot(x, y) {
-        console.log(x, y);
-        if(circleMath(x,y,this.x, this.y,50) && this.state == "active"){
-            this.model.updateScore(circleMathScore(x,y,this.x,this.y,50));
+        console.log(x, y, this.x, this.y);
+        if(this.type == "target" && this.state == "active" && circleMath(x,y,this.x, this.y,50)){
+            this.model.updateScore(circleMathScore(x,y,this.x,this.y,50), this.type);
             $(`.target${this.number}`).remove();//`.target${this.number}`);
+            return true;
+        } else if (this.type == "target_inv" && this.state == "active" && circleMath(x,y,this.x, this.y, 50)){
+            this.model.updateScore(100, this.type);
+            $(`.target${this.number}`).remove();
             return true;
         } else {
             return false;
@@ -129,7 +287,7 @@ class Target {
 }
 
 function circleMath(x,y,cx,cy,r){
-    //console.log(x, y, cx, cy, r);
+    console.log(x, y, cx, cy, r);
     //console.log(((x-cx) * (x-cx)) + ((y-cy) * (y-cy)), (r * r));
     //console.log(x - cx, (x-cx) * (x-cx));
     if( ((x-cx) * (x-cx)) + ((y-cy) * (y-cy)) > (r * r)  ) {

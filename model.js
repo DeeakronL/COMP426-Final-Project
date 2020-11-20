@@ -1,13 +1,14 @@
 export default class Model {
     constructor() {
         
-        this.score = { default: 0};
+        this.score = { up: 0, careful: 0, quick: 0};
         this.crosshair = "default";
         this.mode = 0;
         this.user = "Jesse";
         this.level = [0,0];
         this.currentScore = 0;
         this.listeners = [];
+        this.starting = "no";
     }
 
     loadGame(gameState){
@@ -16,6 +17,7 @@ export default class Model {
         this.mode = gameState.mode;
         this.user = gameState.user;
         this.level = gameState.level;
+        this.starting = "no";
     }
 
     getGameState() {
@@ -54,11 +56,18 @@ export default class Model {
     }
 
     switchMode(mode){
-        this.mode = mode;
+        if(this.starting == "no"){
+            this.mode = mode;
+            this.updateListeners(Model.Event.MODE);
+        }
     }
 
-    updateScore(score) {
-        this.currentScore += score;
+    updateScore(score, type) {
+        if(type == "target"){
+            this.currentScore += score;
+        } else if (type == "target_inv") {
+            this.currentScore -= score;
+        }
         this.updateListeners(Model.Event.SCORE);
         //console.log(this.currentScore);
     }
@@ -88,17 +97,25 @@ export default class Model {
         this.addListener(callback, Model.Event.SCORE);
     }
 
+    onModeChange(callback){
+        this.addListener(callback, Model.Event.MODE);
+    }
+
     start(model, mode){
-        this.updateListeners(Model.Event.START);
-        //let promi = new Promise((resolve, reject) => {
-        //let alertFunc = function() {alert("time's up")};
-        //let times = this.timeOut();
-        setTimeout(function (event) {alert("time's up"); model.timeOut(model, mode)}, 6000);
-        //});
-        //alertFunc();
-        //promi;
-        //alert("time's up");
-        //this.timeOut();
+        if(model.starting == "no"){
+            model.starting = "yes";
+            this.updateListeners(Model.Event.START);
+            //let promi = new Promise((resolve, reject) => {
+            //let alertFunc = function() {alert("time's up")};
+            //let times = this.timeOut();
+            setTimeout(function (event) {model.timeOut(model, mode)}, 6000);
+            //});
+            //alertFunc();
+            //promi;
+            //alert("time's up");
+            //this.timeOut();
+        }
+        
     }
 
     timeOut(model, mode){
@@ -106,12 +123,21 @@ export default class Model {
         model.updateHighScore(model, mode, model.getCurrentScore());
         model.updateListeners(Model.Event.TIMEOUT);
         model.currentScore = 0;
+        model.starting = "no";
     }
 
     updateHighScore(model, mode, score){
         if(mode == 0){
-            if(model.score.default < score){
-                model.score.default = score;
+            if(model.score.up < score){
+                model.score.up = score;
+            }
+        } else if (mode == 1){
+            if(model.score.careful < score){
+                model.score.careful = score;
+            }
+        } else if (mode == 2){
+            if(model.score.quick < score){
+                model.score.quick = score;
             }
         }
     }
@@ -126,4 +152,5 @@ Model.Event = {
     TIMEOUT: 0,
     START: 1,
     SCORE: 2,
+    MODE: 3,
 }
