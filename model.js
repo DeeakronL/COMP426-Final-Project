@@ -1,7 +1,7 @@
 export default class Model {
     constructor() {
         
-        this.score = 0;
+        this.score = { default: 0};
         this.crosshair = "default";
         this.mode = 0;
         this.user = "Jesse";
@@ -60,7 +60,7 @@ export default class Model {
     updateScore(score) {
         this.currentScore += score;
         this.updateListeners(Model.Event.SCORE);
-        console.log(this.currentScore);
+        //console.log(this.currentScore);
     }
 
     async startTimer(mode){
@@ -88,12 +88,12 @@ export default class Model {
         this.addListener(callback, Model.Event.SCORE);
     }
 
-    start(model){
+    start(model, mode){
         this.updateListeners(Model.Event.START);
         //let promi = new Promise((resolve, reject) => {
         //let alertFunc = function() {alert("time's up")};
         //let times = this.timeOut();
-        setTimeout(function () {alert("time's up"); model.timeOut()}, 60000);
+        setTimeout(function (event) {alert("time's up"); model.timeOut(model, mode)}, 6000);
         //});
         //alertFunc();
         //promi;
@@ -101,9 +101,24 @@ export default class Model {
         //this.timeOut();
     }
 
-    timeOut(){
-        console.log("oof");
-        this.updateListeners(Model.Event.TIMEOUT);
+    timeOut(model, mode){
+        //console.log("oof");
+        model.updateHighScore(model, mode, model.getCurrentScore());
+        model.updateListeners(Model.Event.TIMEOUT);
+        model.currentScore = 0;
+    }
+
+    updateHighScore(model, mode, score){
+        if(mode == 0){
+            if(model.score.default < score){
+                model.score.default = score;
+            }
+        }
+    }
+
+    getCurrentScore() {
+        console.log("Current Score: " + this.currentScore); 
+        return this.currentScore;
     }
 }
 
