@@ -87,6 +87,6 @@ app.delete('/userData/:username/:password', (req, res) => {
 });
 
 const port = 3456;
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log("Game backend now running on port " + port);
 });
