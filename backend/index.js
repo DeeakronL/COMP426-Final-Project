@@ -7,8 +7,8 @@ const UserData = require('./user_data.js')
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
-app.use(express.static("../public"));
-app.use(express.static("../frontend"));
+//app.use(express.static("../public"));
+app.use(express.static("frontend"));
 
 app.get('/userData', (req, res) => {
    // res.json(UserData.getAllUsernames());
