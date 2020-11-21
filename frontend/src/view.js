@@ -8,8 +8,8 @@ export default class View {
             .css('height', 500 + "px")
             .css('margin','auto')
             .css('background-color','gray')
-            .css('background-image', 'url("/background_test.png")')
-            .css('cursor',"url('/crosshair_default.png') 50.5 50.5, auto");
+            .css('background-image', 'url("/public/background_test.png")')
+            .css('cursor',"url('/public/crosshair_default.png') 50.5 50.5, auto");
         this.div.append(window);
         let menu = $(`<div class="sidebar"></div>`)
             .css('position','fixed')
@@ -17,7 +17,7 @@ export default class View {
             .css('height', 500 + "px")
             .css('margin','auto')
             .css('background-color','gray')
-            .css('background-image', 'url("/menu_test.png")');
+            .css('background-image', 'url("/public/menu_test.png")');
         this.div.append(menu);
         let leader = $(`<div class="leader"></div>`)
             .css('position','fixed')
@@ -26,7 +26,7 @@ export default class View {
             .css('height', 500 + "px")
             .css('margin','auto')
             .css('background-color','gray')
-            .css('background-image', 'url("/menu_test.png")');
+            .css('background-image', 'url("/public/menu_test.png")');
         this.div.append(leader);
 
         let scoreboard = $(`<div class="score" style="top: 600px;position:fixed">Score: ${model.currentScore}</div>`);
@@ -222,7 +222,7 @@ export default class View {
     }
 
     start() {
-        let div = $(`<img src="/game_start.png" class="game_start" draggable="false">`)
+        let div = $(`<img src="/public/game_start.png" class="game_start" draggable="false">`)
             .css('position','absolute')
             .css('left', "475px")
             .css('top', "150px")
@@ -237,7 +237,7 @@ export default class View {
     }
 
     end() {
-        let div = $(`<img src="/times_up.png" class="game_end" draggable="false">`)
+        let div = $(`<img src="/public/times_up.png" class="game_end" draggable="false">`)
             .css('position','absolute')
             .css('left', "475px")
             .css('top', "150px")
@@ -254,7 +254,7 @@ export default class View {
 
 class Target {
     constructor(size, type, x, y, number, model, state) {
-        this.div = $(`<img src="/${type}.png" class="target target${number}" value="${number}" draggable="false">`)
+        this.div = $(`<img src="/public/${type}.png" class="target target${number}" value="${number}" draggable="false">`)
             .css('position','absolute')
             .css('left', (x - 50) + "px")
             .css('top', (y - 50) + "px");
