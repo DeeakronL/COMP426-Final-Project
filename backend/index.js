@@ -7,6 +7,8 @@ const UserData = require('./user_data.js')
 const bodyParser = require('body-parser');
 
 app.use(bodyParser.json());
+app.use(express.static("../public"));
+app.use(express.static("../frontend"));
 
 app.get('/userData', (req, res) => {
    // res.json(UserData.getAllUsernames());
@@ -18,7 +20,7 @@ app.get('/userData/:mode', (req, res) => {
     leaders.sort(function(a,b) {
         return a[1] - b[1];
     });
-    topTen = leaders.slice(0,10);
+    let topTen = leaders.slice(0,10);
     res.json(topTen);
     return;
 })
