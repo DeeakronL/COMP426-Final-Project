@@ -14,9 +14,11 @@ const bodyParser = require('body-parser');
 //var http;
 //http.listen(process.env.PORT || 3000);
 
-
-let model = new Model();
-let view = new View(model);
-let controller = new Controller(model, view);
-controller.setupTargets(0);
-$('body').append(view.div);
+//$(document).ready()
+(function($){
+    let model = new Model();
+    let view = new View(model);
+    let controller = new Controller(model, view);
+    controller.setupTargets(0);
+    $('body').append(view.div);
+})(jQuery)
