@@ -161,6 +161,7 @@ export default class View {
             let target11 = new Target(10, "target_inv", target_loc_11.x, target_loc_11.y, 0, model, "inactive");
             let target21 = new Target(10, "target_inv", target_loc_21.x, target_loc_21.y, 1, model, "inactive");
             let target31 = new Target(10, "target_inv", target_loc_31.x, target_loc_31.y, 2, model, "inactive");
+            // sp00ky comment
             targets.push(target1);
             targets.push(target2);
             targets.push(target3);
