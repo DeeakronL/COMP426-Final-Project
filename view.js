@@ -19,6 +19,15 @@ export default class View {
             .css('background-color','gray')
             .css('background-image', 'url("/menu_test.png")');
         this.div.append(menu);
+        let leader = $(`<div class="leader"></div>`)
+            .css('position','fixed')
+            .css('left', 1000 + "px")
+            .css('width',  150 + "px")
+            .css('height', 500 + "px")
+            .css('margin','auto')
+            .css('background-color','gray')
+            .css('background-image', 'url("/menu_test.png")');
+        this.div.append(leader);
 
         let scoreboard = $(`<div class="score" style="top: 600px;position:fixed">Score: ${model.currentScore}</div>`);
         let highScoreboard1 = $(`<div class="highUp" style="top: 650px;position:fixed">High Score (Up): ${model.score.up}</div>`);
