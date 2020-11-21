@@ -9,9 +9,19 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 app.get('/userData', (req, res) => {
-    res.json(UserData.getAllUsernames());
+   // res.json(UserData.getAllUsernames());
     return;
 });
+
+app.get('/userData/:mode', (req, res) => {
+    let leaders = UserData.getAllScores(req.params.mode);
+    leaders.sort(function(a,b) {
+        return a[1] - b[1];
+    });
+    topTen = leaders.slice(0,10);
+    res.json(topTen);
+    return;
+})
 
 app.get('/userData/:username/:password', (req, res) => {
     let u = UserData.findByUsername(req.params.username,req.params.password);
