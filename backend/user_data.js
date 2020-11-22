@@ -1,12 +1,12 @@
 const stored_data = require('data-store')({ path: process.cwd() + '/data/user.json' });
 
 class UserData {
-    constructor(username, password, score, level, equip) {
+    constructor(username, password, score, level, crosshair) {
         this.username = username;
         this.password = password;
         this.score = score;
         this.level = level;
-        this.equip = equip;
+        this.crosshair = crosshair;
     }
 
     update () {
@@ -31,7 +31,7 @@ UserData.getAllScores = (mode) => {
 
 UserData.findByUsername = (username, password) => {
     let user = stored_data.get(username);
-    let u = new UserData(user.username, user.password, user.score, user.level, user.equip);
+    let u = new UserData(user.username, user.password, user.score, user.level, user.crosshair);
     if (u == null) {
         return [null, false];
     } else if (u.password == password) {
@@ -39,7 +39,7 @@ UserData.findByUsername = (username, password) => {
             username: u.username,
             score: u.score,
             level: u.level,
-            equip: u.equip
+            crosshair: u.crosshair
         }
         return [user, true];
     } else {
@@ -47,7 +47,7 @@ UserData.findByUsername = (username, password) => {
     }
 }
 
-UserData.create = (username, password, score, level, equip) => {
+UserData.create = (username, password, score, level, crosshair) => {
     let array = UserData.getAllUsernames();
     let unique = true;
     for (let i = 0; i < array.length; i++) {
@@ -55,8 +55,8 @@ UserData.create = (username, password, score, level, equip) => {
             unique = false;
         }
     }
-    let u = new UserData(username,password,score,level,equip);
-    if (uniqe == true) {
+    let u = new UserData(username,password,score,level,crosshair);
+    if (unique == true) {
         stored_data.set(u.username, u);
     }
     return [u,unique];

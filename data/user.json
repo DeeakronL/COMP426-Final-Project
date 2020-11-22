@@ -9,5 +9,16 @@
     ],
     "level": 4,
     "equip": "default"
+  },
+  "test user": {
+    "username": "test user",
+    "password": "1234",
+    "score": [
+      100,
+      200,
+      300
+    ],
+    "level": 4,
+    "crosshair": "default"
   }
 }
