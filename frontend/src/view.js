@@ -327,8 +327,8 @@ export default class View {
                 method: 'post',
                 url: '/userData',
                 data: {
-                    user: user,
-                    pass: pass,
+                    username: user,
+                    password: pass,
                     score: score,
                     level: level,
                     crosshair: crosshair,
