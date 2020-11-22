@@ -8,7 +8,7 @@ export default class View {
             .css('height', 500 + "px")
             .css('margin','auto')
             .css('background-color','gray')
-            .css('background-image', 'url("/public/background_test.png")')
+            .css('background-image', 'url("/public/background_beach.png")')
             .css('cursor',"url('/public/crosshair_default.png') 50.5 50.5, auto");
         this.div.append(window);
         let menu = $(`<div class="sidebar"></div>`)
