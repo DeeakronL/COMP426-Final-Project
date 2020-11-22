@@ -101,6 +101,10 @@ export default class Model {
         this.addListener(callback, Model.Event.MODE);
     }
 
+    onUrDead(callback){
+        this.addListener(callback, Model.Event.URDEAD);
+    }
+
     quickTime(model){
         let d = new Date();
         let newTime = d.getTime();
@@ -110,8 +114,16 @@ export default class Model {
         }
         this.currentScore = 5000 - diff;
         this.timeOut(model, model.mode);
-
+        if(diff == 5000){
+            return "ur dead";
+        } else {
+            return "ur not dead";
+        }
         console.log(newTime - this.time);
+    }
+
+    urDead(){
+        this.updateListeners(Model.Event.URDEAD);
     }
 
     start(model, mode){
@@ -124,6 +136,7 @@ export default class Model {
             if(mode == 0 || mode == 1){
                 setTimeout(function (event) {model.timeOut(model, mode)}, 6000);
             } else if (mode == 2){
+                setTimeout(function (event) {alert("too slow"); model.urDead()}, 5000);
                 let d = new Date();
                 this.time = d.getTime();
             }
@@ -172,4 +185,5 @@ Model.Event = {
     START: 1,
     SCORE: 2,
     MODE: 3,
+    URDEAD: 4,
 }

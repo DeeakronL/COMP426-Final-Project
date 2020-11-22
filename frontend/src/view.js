@@ -259,6 +259,9 @@ class Target {
         this.type = type;
         model.onStart((gameState) => {this.update("active")});
         model.onTimeOut((gameState) => {this.update("inactive")});
+        if(type == "target_draw"){
+            model.onUrDead((gameState) => {this.isShot(x, y)});
+        }
     }
 
     isShot(x, y) {
@@ -272,11 +275,15 @@ class Target {
             $(`.target${this.number}`).remove();
             return true;
         } else if (this.type == "target_draw" && this.state == "active" && circleMath(x,y,this.x, this.y, 100)){
-            console.log("I wasn't fast enough");
-            this.model.updateScore(this.model.quickTime(this.model), this.type);
+            let result = this.model.quickTime(this.model);
+            if(result == "ur dead"){
+                alert("you died");
+                this.uDied();
+            } else {
+                this.model.updateScore(this.model.quickTime(this.model), this.type);
+            }
             return false;
         }
-        console.log("missed");
         return false;
         
     }
@@ -287,6 +294,11 @@ class Target {
         } else if (state == "inactive"){
             this.state = state;
         }
+    }
+
+    uDied(){
+        $(`.target${this.number}`).attr("src", "/public/target_deadeye.png");
+        //this.div.src = "/public/target_deadeye.png";
     }
 
 
