@@ -1,5 +1,6 @@
 export default class View {
     constructor(model) {
+        let back = randomBackground();
         this.setup = "not done";
         this.div = $(`<div class="main"></div>`);
         let window = $(`<div class="window"></div>`)
@@ -8,7 +9,7 @@ export default class View {
             .css('height', 500 + "px")
             .css('margin','auto')
             .css('background-color','gray')
-            .css('background-image', 'url("/public/background_beach.png")')
+            .css('background-image', `url("/public/background_${back}.png")`)
             .css('cursor',"url('/public/crosshair_default.png') 50.5 50.5, auto");
         this.div.append(window);
         let menu = $(`<div class="sidebar"></div>`)
@@ -45,7 +46,7 @@ export default class View {
         model.onBang((gameState) => {this.bang(model)});
         this.reset = true;
         let view = this;
-        model.onModeChange((gameState) => {this.setupTargets(model.mode, view, model, view.setup)})
+        model.onModeChange((gameState) => {this.setupTargets(model.mode, view, model, view.setup); this.newBack()})
         this.modeName = "";
         this.targets = [];
         this.window = window;
@@ -343,6 +344,11 @@ export default class View {
         }
         doSignUp();
     }
+
+    newBack(){
+        let back = randomBackground();
+        $(".window").css('background-image', `url("/public/background_${back}.png")`)
+    }
 }
 
 class Target {
@@ -439,4 +445,13 @@ function randomCoords() {
         y = Math.random()*500;
     }
     return {x: x, y: y};
+}
+
+function randomBackground() {
+    let num = Math.floor(Math.random() * 2);
+    if(num == 0){
+        return "beach";
+    } else if (num == 1){
+        return "space";
+    }
 }
