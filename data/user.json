@@ -110,5 +110,33 @@
       0
     ],
     "crosshair": "default"
+  },
+  "QuickDrawMcGee": {
+    "username": "QuickDrawMcGee",
+    "password": "what",
+    "score": [
+      1096.8522013538384,
+      796.1106044083263,
+      4386
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
+  },
+  "tex": {
+    "username": "tex",
+    "password": "notsofast",
+    "score": [
+      0,
+      0,
+      4633
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
   }
 }
