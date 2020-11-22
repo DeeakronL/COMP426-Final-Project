@@ -101,6 +101,19 @@ export default class Model {
         this.addListener(callback, Model.Event.MODE);
     }
 
+    quickTime(model){
+        let d = new Date();
+        let newTime = d.getTime();
+        let diff = newTime - this.time;
+        if(diff > 5000){
+            diff = 5000;
+        }
+        this.currentScore = 5000 - diff;
+        this.timeOut(model, model.mode);
+
+        console.log(newTime - this.time);
+    }
+
     start(model, mode){
         if(model.starting == "no"){
             model.starting = "yes";
@@ -108,7 +121,13 @@ export default class Model {
             //let promi = new Promise((resolve, reject) => {
             //let alertFunc = function() {alert("time's up")};
             //let times = this.timeOut();
-            setTimeout(function (event) {model.timeOut(model, mode)}, 6000);
+            if(mode == 0 || mode == 1){
+                setTimeout(function (event) {model.timeOut(model, mode)}, 6000);
+            } else if (mode == 2){
+                let d = new Date();
+                this.time = d.getTime();
+            }
+            
             //});
             //alertFunc();
             //promi;

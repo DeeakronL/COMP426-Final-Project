@@ -184,22 +184,11 @@ export default class View {
             let window = view.window;
             targets = [];
             $(".target").remove();
-            let target_loc_1 = randomCoords();
-
-            let target_loc_2 = randomCoords();
-
-            let target_loc_3 = randomCoords();
-
-            let target1 = new Target(10, "target", target_loc_1.x, target_loc_1.y, 0, model, "inactive");
-            let target2 = new Target(10, "target", target_loc_2.x, target_loc_2.y, 1, model, "inactive");
-            let target3 = new Target(10, "target", target_loc_3.x, target_loc_3.y, 2, model, "inactive");
+            let target_loc_1 = {x: 475, y: 200};
+            let target1 = new Target(10, "target_draw", target_loc_1.x, target_loc_1.y, 0, model, "inactive");
             targets.push(target1);
-            targets.push(target2);
-            targets.push(target3);
             view.targets = targets;
             window.append(target1.div);
-            window.append(target2.div);
-            window.append(target3.div);
             view.modeName = "Shoot 'em quick";
             if(setup == "done"){
                 $(".modeName").html(`${view.modeName}`);
@@ -258,7 +247,10 @@ class Target {
             .css('position','absolute')
             .css('left', (x - 50) + "px")
             .css('top', (y - 50) + "px");
-
+        if(type == "target_draw"){
+            this.div.css('left', (x - 100) + "px");
+            this.div.css('right', (y - 100) + "px");
+        }
         this.number = number;
         this.x = x;
         this.y = y;
@@ -270,7 +262,7 @@ class Target {
     }
 
     isShot(x, y) {
-        console.log(x, y, this.x, this.y);
+        //console.log(x, y, this.x, this.y);
         if(this.type == "target" && this.state == "active" && circleMath(x,y,this.x, this.y,50)){
             this.model.updateScore(circleMathScore(x,y,this.x,this.y,50), this.type);
             $(`.target${this.number}`).remove();//`.target${this.number}`);
@@ -279,9 +271,13 @@ class Target {
             this.model.updateScore(100, this.type);
             $(`.target${this.number}`).remove();
             return true;
-        } else {
+        } else if (this.type == "target_draw" && this.state == "active" && circleMath(x,y,this.x, this.y, 100)){
+            console.log("I wasn't fast enough");
+            this.model.updateScore(this.model.quickTime(this.model), this.type);
             return false;
         }
+        console.log("missed");
+        return false;
         
     }
 
