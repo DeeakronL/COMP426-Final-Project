@@ -39,8 +39,8 @@ app.get('/userData/:username/:password', (req, res) => {
 });
 
 app.post('/userData', (req, res) => {
-    let {username, password, score, level, equip} = req.body;
-    let u = UserData.create(username,password,score,level,equip);
+    let {username, password, score, level, crosshair} = req.body;
+    let u = UserData.create(username,password,score,level,crosshair);
     if (u[0] == null) {
         res.status(400).send("Bad Request");
         return;
@@ -61,10 +61,10 @@ app.put('/userData/:username/:password', (req, res) => {
         return;
     }
 
-    let {score, level, equip} = req.body;
+    let {score, level, crosshair} = req.body;
     u.score = score;
     u.level = level;
-    u.equip = equip;
+    u.crosshair = crosshair;
     
     u.update();
 

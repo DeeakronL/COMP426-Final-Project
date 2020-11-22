@@ -17,7 +17,6 @@ export default class Model {
     loadGame(gameState){
         this.score = gameState.score;
         this.crosshair = gameState.score;
-        this.mode = gameState.mode;
         this.user = gameState.user;
         this.level = gameState.level;
         this.starting = "no";

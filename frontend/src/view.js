@@ -289,7 +289,7 @@ export default class View {
                         <div class="field">
                             <label class="label">Username:</label>
                         <div class="control">
-                            <input class="username" type="text" value="Jesse">
+                            <input class="username" type="text" value="${model.user}">
                         </div>
                         </div>
                         <div class="field">
