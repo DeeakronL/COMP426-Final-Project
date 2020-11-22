@@ -286,7 +286,7 @@ export default class View {
             model.resetting = true;
             let div =$(
                 `<form class="form">
-                    <div style="height: 200px; background-color: white; border:1px solid #000">
+                    <div style="height: 200px;width: 200px; background-color: white; border:1px solid #000; margin: auto">
                         <div class="field">
                             <label class="label">Username:</label>
                         <div class="control">
@@ -299,13 +299,15 @@ export default class View {
                             <input class="password" type="password" value="">
                         </div>
                         </div>
-                        <button style="width:100px;height:50px;border:1px solid #000;left: 50px" class="submit">Sign Up</button>
+                        <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="submit">Sign Up</button>
+                        <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="cancel">Cancel</button>
                         <div style="color: red" class="error"></div>
                     </div>
                 </form>`)
                 .css("position", "absolute")
                 .css("left", "400px");
             $("#root").on("click", ".submit", function (event) {view.handleSignUp(model, event)});
+            $("#root").on("click", ".cancel", function (event) {model.resetting = false; $(".form").remove()});
             this.window.append(div);
         }
     }
