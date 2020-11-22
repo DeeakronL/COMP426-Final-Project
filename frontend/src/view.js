@@ -299,11 +299,12 @@ export default class View {
                         </div>
                         </div>
                         <button style="width:100px;height:50px;border:1px solid #000;left: 50px" class="submit">Sign Up</button>
+                        <div style="color: red" class="error"></div>
                     </div>
                 </form>`)
                 .css("position", "absolute")
                 .css("left", "400px");
-            $("#root").on("click", ".submit", function (event) {view.handleSignUp(event)});
+            $("#root").on("click", ".submit", function (event) {view.handleSignUp(model, event)});
             this.window.append(div);
         }
     }
@@ -312,11 +313,35 @@ export default class View {
 
     }
 
-    handleSignUp(event){
+    handleSignUp(model, event){
         event.preventDefault();
         let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;//.elements[1].elements[0].value;
         let pass = event.target.parentNode.childNodes[3].childNodes[3].childNodes[1].value;
+        let score = [model.score.up, model.score.careful, model.score.quick];
+        let level = model.level;
+        let crosshair = model.crosshair;
         console.log(user, pass);
+        async function doSignUp(user, pass, score, level, crosshair){
+            let result = await axios ({
+                method: 'post',
+                url: '/userData',
+                data: {
+                    user: user,
+                    pass: pass,
+                    score: score,
+                    level: level,
+                    crosshair: crosshair,
+                }
+            });
+            if(result.status == 500){
+                let text = result.statusText;
+                $(".error").html(`${text}`);
+            } else {
+                alert("yay!");
+            }
+
+        }
+        doSignUp();
     }
 }
 
