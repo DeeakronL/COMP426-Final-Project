@@ -9,6 +9,9 @@ export default class Model {
         this.currentScore = 0;
         this.listeners = [];
         this.starting = "no";
+        this.time2 = 0;
+        this.draw = "naw";
+        this.resetting = false;
     }
 
     loadGame(gameState){
@@ -56,7 +59,9 @@ export default class Model {
     }
 
     switchMode(mode){
-        if(this.starting == "no"){
+        if(this.resetting){
+
+        } else if(this.starting == "no"){
             this.mode = mode;
             this.updateListeners(Model.Event.MODE);
         }
@@ -105,29 +110,59 @@ export default class Model {
         this.addListener(callback, Model.Event.URDEAD);
     }
 
+    onDraw(callback){
+        this.addListener(callback, Model.Event.DRAW);
+    }
+
+    onBang(callback){
+        this.addListener(callback, Model.Event.BANG);
+    }
+
     quickTime(model){
         let d = new Date();
         let newTime = d.getTime();
-        let diff = newTime - this.time;
+        if(this.time2 == 0){
+            this.timeOut(model, model.mode);
+            model.urDead();
+            return "ur dead";
+        }
+        console.log("yay");
+        let diff = newTime - (this.time2);
         if(diff > 5000){
-            diff = 5000;
+            this.timeOut(model, model.mode);
+            model.urDead();
+            return "ur dead";
         }
         this.currentScore = 5000 - diff;
         this.timeOut(model, model.mode);
         if(diff == 5000){
             return "ur dead";
         } else {
+            this.draw = "naw";
+            this.updateListeners(Model.Event.BANG);
             return "ur not dead";
         }
         console.log(newTime - this.time);
     }
 
     urDead(){
-        this.updateListeners(Model.Event.URDEAD);
+        if(this.draw == "currently..."){
+            this.updateListeners(Model.Event.BANG);
+            this.updateListeners(Model.Event.URDEAD);
+            this.draw = "naw";
+            this.timeOut(this, this.mode);
+            //alert("you died");
+        }
+    }
+
+    updateDraw(){
+        this.updateListeners(Model.Event.DRAW);
     }
 
     start(model, mode){
-        if(model.starting == "no"){
+        if(model.resetting){
+
+        } else if (model.starting == "no"){
             model.starting = "yes";
             this.updateListeners(Model.Event.START);
             //let promi = new Promise((resolve, reject) => {
@@ -136,9 +171,26 @@ export default class Model {
             if(mode == 0 || mode == 1){
                 setTimeout(function (event) {model.timeOut(model, mode)}, 6000);
             } else if (mode == 2){
-                setTimeout(function (event) {alert("too slow"); model.urDead()}, 5000);
+                let randTime = Math.random()*5000;
                 let d = new Date();
                 this.time = d.getTime();
+                this.draw = "currently...";
+                setTimeout(function (event) {
+                    if(model.draw == "currently..."){
+                        setTimeout(function (event) {
+                            if(model.draw == "currently..."){
+                                let d2 = new Date();
+                                model.time2 = d2.getTime();
+                                model.updateDraw();
+                                setTimeout(function(event) {model.urDead()}, 5000) 
+                            }
+                            
+                        }, randTime)
+                    }
+                    
+                    //alert("too slow"); model.urDead()
+                }, 5000);
+                
             }
             
             //});
@@ -186,4 +238,6 @@ Model.Event = {
     SCORE: 2,
     MODE: 3,
     URDEAD: 4,
+    DRAW: 5,
+    BANG: 6,
 }

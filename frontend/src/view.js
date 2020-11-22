@@ -40,7 +40,10 @@ export default class View {
         model.onScore((gameState) => {this.updateScore(gameState.currentScore)});
         model.onStart((gameState) => {this.start()});
         model.onTimeOut((gameState) => {this.updateHighScore(gameState.mode, gameState.score)});
-        model.onTimeOut((gameState) => {this.end()});
+        model.onTimeOut((gameState) => {this.end(gameState.mode)});
+        model.onDraw((gameState) => {this.draw()});
+        model.onBang((gameState) => {this.bang(model)});
+        this.reset = true;
         let view = this;
         model.onModeChange((gameState) => {this.setupTargets(model.mode, view, model, view.setup)})
         this.modeName = "";
@@ -96,6 +99,15 @@ export default class View {
         menu.append(button4);
         menu.append(button5);
         this.setup = "done";
+        async function getLeaders(){
+            let result = await axios ({
+                method: 'get',
+                url: '/userData',
+            });
+            $(".leader").html(`${result.data}`);
+
+        }
+        getLeaders();
     }
 
     createNewTarget(number, model, state) {
@@ -217,27 +229,44 @@ export default class View {
             .css('top', "150px")
             .css('pointer-events', 'none');
         this.window.append(div);
-        let opacity = 100;
-        for(let i = 0; i < 100; i++){
-            opacity -= 1;
-            //console.log(opacity);
-            setTimeout(function () {$(`.game_start`).css(`opacity`, opacity/100);}, 1000);
+        setTimeout(function () {$(`.game_start`).remove();}, 1000);
+        
+    }
+
+    end(mode) {
+        if(mode != 2){
+            let div = $(`<img src="/public/times_up.png" class="game_end" draggable="false">`)
+                .css('position','absolute')
+                .css('left', "475px")
+                .css('top', "150px")
+                .css('pointer-events', 'none');
+            this.window.append(div);
+            setTimeout(function () {$(`.game_end`).remove()}, 1000);
+
         }
     }
 
-    end() {
-        let div = $(`<img src="/public/times_up.png" class="game_end" draggable="false">`)
+    draw() {
+        let div = $(`<img src="/public/draw.png" class="draw" draggable="false">`)
             .css('position','absolute')
             .css('left', "475px")
             .css('top', "150px")
             .css('pointer-events', 'none');
         this.window.append(div);
-        let opacity = 100;
-        for(let i = 0; i < 100; i++){
-            opacity -= 1;
-            //console.log(opacity);
-            setTimeout(function () {$(`.game_end`).css(`opacity`, opacity/100);}, 1000);
-        }
+        setTimeout(function () {$(`.draw`).remove();}, 1000);
+    }
+
+    bang(model) {
+        let div = $(`<img src="/public/bang.png" class="bang" draggable="false">`)
+            .css('position','absolute')
+            .css('left', "375px")
+            .css('top', "150px")
+            .css('pointer-events', 'none');
+        this.window.append(div);
+        model.resetting = true;
+        setTimeout(function () {$(`.bang`).remove();}, 1000);
+        $(`.modeButton`).html("Reset");
+        $("#root").on("click", ".modeButton", function(event) { model.resetting = false; model.switchMode(2); $(`.modeButton`).html("Mode:"); $('#root').off("click", '.modeButton');});
     }
 }
 
@@ -277,10 +306,11 @@ class Target {
         } else if (this.type == "target_draw" && this.state == "active" && circleMath(x,y,this.x, this.y, 100)){
             let result = this.model.quickTime(this.model);
             if(result == "ur dead"){
-                alert("you died");
+                //alert("you died");
                 this.uDied();
             } else {
-                this.model.updateScore(this.model.quickTime(this.model), this.type);
+                this.noU();
+                this.model.updateScore(result, this.type);
             }
             return false;
         }
@@ -299,6 +329,10 @@ class Target {
     uDied(){
         $(`.target${this.number}`).attr("src", "/public/target_deadeye.png");
         //this.div.src = "/public/target_deadeye.png";
+    }
+
+    noU(){
+        $(`.target${this.number}`).attr("src", "/public/target_poser.png");
     }
 
 

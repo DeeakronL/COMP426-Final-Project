@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(express.static("frontend"));
 
 app.get('/userData', (req, res) => {
-   // res.json(UserData.getAllUsernames());
+    res.json(UserData.getAllUsernames());
     return;
 });
 
