@@ -93,11 +93,21 @@ export default class View {
             .css('position', 'absolute')
             .css('left', '75px')
             .css('top', '160px');
+        let button6 = $(`<button style="width:100px;height:50px;border:1px solid #000" class="signUp">Sign Up</button>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '210px');
+        let button7 = $(`<button style="width:100px;height:50px;border:1px solid #000" class="logIn">Log In</button>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '260px');
         menu.append(button1);
         menu.append(button2);
         menu.append(button3);
         menu.append(button4);
         menu.append(button5);
+        menu.append(button6);
+        menu.append(button7);
         this.setup = "done";
         async function getLeaders(){
             let result = await axios ({
@@ -267,6 +277,46 @@ export default class View {
         setTimeout(function () {$(`.bang`).remove();}, 1000);
         $(`.modeButton`).html("Reset");
         $("#root").on("click", ".modeButton", function(event) { model.resetting = false; model.switchMode(2); $(`.modeButton`).html("Mode:"); $('#root').off("click", '.modeButton');});
+    }
+
+    showForm(model, form){
+        let view = this;
+        if(model.starting == "no" && model.resetting == false){
+            model.resetting = true;
+            let div =$(
+                `<form class="form">
+                    <div style="height: 200px; background-color: white; border:1px solid #000">
+                        <div class="field">
+                            <label class="label">Username:</label>
+                        <div class="control">
+                            <input class="username" type="text" value="Jesse">
+                        </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Password:</label>
+                        <div class="control">
+                            <input class="password" type="password" value="">
+                        </div>
+                        </div>
+                        <button style="width:100px;height:50px;border:1px solid #000;left: 50px" class="submit">Sign Up</button>
+                    </div>
+                </form>`)
+                .css("position", "absolute")
+                .css("left", "400px");
+            $("#root").on("click", ".submit", function (event) {view.handleSignUp(event)});
+            this.window.append(div);
+        }
+    }
+
+    removeForm(model, form){
+
+    }
+
+    handleSignUp(event){
+        event.preventDefault();
+        let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;//.elements[1].elements[0].value;
+        let pass = event.target.parentNode.childNodes[3].childNodes[3].childNodes[1].value;
+        console.log(user, pass);
     }
 }
 
