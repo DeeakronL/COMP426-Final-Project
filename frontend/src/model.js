@@ -12,6 +12,7 @@ export default class Model {
         this.time2 = 0;
         this.draw = "naw";
         this.resetting = false;
+        this.loggedIn = false;
     }
 
     loadGame(gameState){

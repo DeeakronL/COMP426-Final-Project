@@ -282,7 +282,7 @@ export default class View {
 
     showForm(model, form){
         let view = this;
-        if(model.starting == "no" && model.resetting == false){
+        if(model.starting == "no" && model.resetting == false && model.loggedIn == false){
             model.resetting = true;
             let div =$(
                 `<form class="form">
@@ -323,7 +323,8 @@ export default class View {
         let crosshair = model.crosshair;
         console.log(user, pass);
         async function doSignUp(user, pass, score, level, crosshair){
-            let result = await axios ({
+            let result;
+            result = await axios ({
                 method: 'post',
                 url: '/userData',
                 data: {
@@ -333,13 +334,21 @@ export default class View {
                     level: level,
                     crosshair: crosshair,
                 }
-            });
-            if(result.status == 500){
-                let text = result.statusText;
+            }).catch(function(error){
+                //console.log(error.response.data);
+                let text = error.response.data;
                 $(".error").html(`${text}`);
-            } else {
-                alert("yay!");
+            });
+
+            if (result != undefined){
+                model.resetting = false;
+                model.user = user;
+                model.pass = pass;
+                model.loggedIn = true;
+                $(".form").remove();
+                console.log("yay!");
             }
+            
 
         }
         doSignUp(user, pass, score, level, crosshair);

@@ -40,5 +40,75 @@
       0
     ],
     "crosshair": "default"
+  },
+  "Jesse": {
+    "username": "Jesse",
+    "password": "hunter2",
+    "score": [
+      0,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
+  },
+  "Jesse2": {
+    "username": "Jesse2",
+    "password": "hunter2",
+    "score": [
+      0,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
+  },
+  "Jesse3": {
+    "username": "Jesse3",
+    "password": "excuseyou",
+    "score": [
+      0,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
+  },
+  "Jesse7": {
+    "username": "Jesse7",
+    "password": "jesse",
+    "score": [
+      1097.4430261278678,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
+  },
+  "Jesse9": {
+    "username": "Jesse9",
+    "password": "yes",
+    "score": [
+      0,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
   }
 }
