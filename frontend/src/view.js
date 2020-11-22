@@ -342,7 +342,7 @@ export default class View {
             }
 
         }
-        doSignUp();
+        doSignUp(user, pass, score, level, crosshair);
     }
 
     newBack(){
