@@ -459,10 +459,12 @@ function randomCoords() {
 }
 
 function randomBackground() {
-    let num = Math.floor(Math.random() * 2);
+    let num = Math.floor(Math.random() * 3);
     if(num == 0){
         return "beach";
     } else if (num == 1){
         return "space";
+    } else if (num == 2){
+        return "badlands";
     }
 }
