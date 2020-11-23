@@ -62,13 +62,13 @@ app.put('/userData/:username/:password', (req, res) => {
     }
 
     let {score, level, crosshair} = req.body;
-    u.score = score;
-    u.level = level;
-    u.crosshair = crosshair;
+    //u[0].score = score;
+    //u[0].level = level;
+    //u[0].crosshair = crosshair;
     
-    u.update();
+    u[0].update();
 
-    res.json(u);
+    res.json(u[0]);
     return;
 });
 

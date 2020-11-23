@@ -9,11 +9,11 @@ class UserData {
         this.crosshair = crosshair;
     }
 
-    update () {
+    update() {
         stored_data.set(this.username, this);
     }
 
-    delete () {
+    delete() {
         stored_data.del(this.username);
     }
 }
@@ -35,14 +35,9 @@ UserData.findByUsername = (username, password) => {
     if (u == null) {
         return [null, false];
     } else if (u.password == password) {
-        let user = {
-            username: u.username,
-            score: u.score,
-            level: u.level,
-            crosshair: u.crosshair
-        }
-        return [user, true];
+        return [u, true];
     } else {
+        u.password = "not_the_password";
         return [u, false];
     }
 }
