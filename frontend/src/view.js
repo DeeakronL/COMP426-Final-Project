@@ -44,6 +44,7 @@ export default class View {
         model.onTimeOut((gameState) => {this.end(gameState.mode)});
         model.onDraw((gameState) => {this.draw()});
         model.onBang((gameState) => {this.bang(model)});
+        model.onCrosshair((gameState) => {this.updateCursor(gameState.crosshair)});
         this.reset = true;
         let view = this;
         model.onModeChange((gameState) => {this.setupTargets(model.mode, view, model, view.setup); this.newBack()})
@@ -124,6 +125,58 @@ export default class View {
         menu.append(button8);
         menu.append(button9);
         menu.append(button10);
+
+
+        let crossButton0 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/button_default.png)" class="cross0"></button>`)
+            .css('position', 'absolute')
+            .css('left', '0px')
+            .css('top', '510px');
+        let crossButton1 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_n00b.png)" class="cross1"></button>`)
+            .css('position', 'absolute')
+            .css('left', '115px')
+            .css('top', '510px');
+        let crossButton2 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_arr.png)" class="cross2"></button>`)
+            .css('position', 'absolute')
+            .css('left', '230px')
+            .css('top', '510px');
+        let crossButton3 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_x.png)" class="cross3"></button>`)
+            .css('position', 'absolute')
+            .css('left', '345px')
+            .css('top', '510px');
+        let crossButton4 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_oldstyle.png)" class="cross4"></button>`)
+            .css('position', 'absolute')
+            .css('left', '460px')
+            .css('top', '510px');
+        let crossButton5 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_east.png)" class="cross5"></button>`)
+            .css('position', 'absolute')
+            .css('left', '575px')
+            .css('top', '510px');
+        let crossButton6 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_hands.png)" class="cross6"></button>`)
+            .css('position', 'absolute')
+            .css('left', '690px')
+            .css('top', '510px');
+        let crossButton7 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_square.png)" class="cross7"></button>`)
+            .css('position', 'absolute')
+            .css('left', '805px')
+            .css('top', '510px');
+        let crossButton8 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_elite.png)" class="cross8"></button>`)
+            .css('position', 'absolute')
+            .css('left', '920px')
+            .css('top', '510px');
+        let crossButton9 = $(`<button style="width:115px;height:115px;border:1px solid #000;background-image: url(/public/locked_crown.png)" class="cross9"></button>`)
+            .css('position', 'absolute')
+            .css('left', '1035px')
+            .css('top', '510px');
+        this.div.append(crossButton0);
+        this.div.append(crossButton1);
+        this.div.append(crossButton2);
+        this.div.append(crossButton3);
+        this.div.append(crossButton4);
+        this.div.append(crossButton5);
+        this.div.append(crossButton6);
+        this.div.append(crossButton7);
+        this.div.append(crossButton8);
+        this.div.append(crossButton9);
         this.setup = "done";
         async function getLeaders(){
             let result = await axios ({
@@ -406,20 +459,20 @@ export default class View {
         event.preventDefault();
         let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;//.elements[1].elements[0].value;
         let pass = event.target.parentNode.childNodes[3].childNodes[3].childNodes[1].value;
+        if (pass == ""){
+            pass = "ouhwggiuwyt87iugrhgi8gwiuhiuw";
+        }
         async function doLogIn(user, pass){
             let result;
-            let error2 = false;
             result = await axios ({
                 method: 'get',
                 url: `/userData/${user}/${pass}`,
             }).catch(function(error){
-                console.log(error.response + "yay?");
                 let text = error.response.data;
                 $(".error").html(`${text}`);
-                error2 = true;
             });
 
-            if (result != undefined && !error2){
+            if (result != undefined){
                 model.resetting = false;
                 let gameState = {
                     user: result.data.username,
@@ -569,6 +622,10 @@ export default class View {
 
         }
         doDelete(user, pass);
+    }
+
+    updateCursor(crosshair){
+        $(".window").css('cursor',`url('/public/crosshair_${crosshair}.png') 50.5 50.5, auto`);
     }
 }
 

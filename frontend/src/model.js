@@ -75,6 +75,16 @@ export default class Model {
         }
     }
 
+    switchCrosshair(crosshairNum, type){
+        console.log(this.level, crosshairNum);
+        if(this.level[0] < crosshairNum){
+
+        } else {
+            this.crosshair = type;
+            this.updateListeners(Model.Event.CROSSHAIR);
+        }
+    }
+
     updateScore(score, type) {
         if(type == "target"){
             this.currentScore += score;
@@ -124,6 +134,10 @@ export default class Model {
 
     onBang(callback){
         this.addListener(callback, Model.Event.BANG);
+    }
+
+    onCrosshair(callback){
+        this.addListener(callback, Model.Event.CROSSHAIR);
     }
 
     quickTime(model){
@@ -248,4 +262,5 @@ Model.Event = {
     URDEAD: 4,
     DRAW: 5,
     BANG: 6,
+    CROSSHAIR: 7,
 }

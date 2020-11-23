@@ -33,6 +33,16 @@ export default class Controller {
         $("#root").on("click", ".logOut", function(event) {view.logOut(model)});
         $("#root").on("click", ".save", function(event) {view.save(model)});
         $("#root").on("click", ".delete", function(event) {view.delete(model)});
+        $("#root").on("click", ".cross0", function(event) {model.switchCrosshair(0, "default")});
+        $("#root").on("click", ".cross1", function(event) {model.switchCrosshair(1, "n00b")});
+        $("#root").on("click", ".cross2", function(event) {model.switchCrosshair(2, "arr")});
+        $("#root").on("click", ".cross3", function(event) {model.switchCrosshair(3, "x")});
+        $("#root").on("click", ".cross4", function(event) {model.switchCrosshair(4, "oldstyle")});
+        $("#root").on("click", ".cross5", function(event) {model.switchCrosshair(5, "east")});
+        $("#root").on("click", ".cross6", function(event) {model.switchCrosshair(6, "hands")});
+        $("#root").on("click", ".cross7", function(event) {model.switchCrosshair(7, "square")});
+        $("#root").on("click", ".cross8", function(event) {model.switchCrosshair(8, "elite")});
+        $("#root").on("click", ".cross9", function(event) {model.switchCrosshair(9, "crown")});
     }
 
     
