@@ -38,6 +38,16 @@ app.get('/userData/:username/:password', (req, res) => {
     return;
 });
 
+app.get('/userData/scores/:username', (req, res) => {
+    let u = UserData.findUserScores(req.params.username);
+    if (u[0] == null) {
+        res.status(404).send("Username not found");
+        return;
+    }
+    res.json(u[0]);
+    return;
+})
+
 app.post('/userData', (req, res) => {
     let {username, password, score, level, crosshair} = req.body;
     let u = UserData.create(username,password,score,level,crosshair);
@@ -53,7 +63,7 @@ app.post('/userData', (req, res) => {
 
 app.put('/userData/:username/:password', (req, res) => {
     let u = UserData.findByUsername(req.params.username,req.params.password);
-    if (u[0] == null) {
+    if (u[0] == "null") {
         res.status(404).send("Username not found");
         return;
     } else if (u[1] == false) {

@@ -42,6 +42,23 @@ UserData.findByUsername = (username, password) => {
     }
 }
 
+UserData.findUserScores = (username) => {
+    let user = stored_data.get(username);
+    if (user == null) {
+        return [null, false];
+    } else {
+        let u = {
+            user: user.username,
+            score: [
+                user.score[0],
+                user.score[1],
+                user.score[2]
+            ]
+        };
+        return [u, true];
+    }
+}
+
 UserData.create = (username, password, score, level, crosshair) => {
     let array = UserData.getAllUsernames();
     let unique = true;
