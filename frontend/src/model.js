@@ -261,6 +261,30 @@ export default class Model {
                 model.score.quick = score;
             }
         }
+
+        this.updateXP(model, mode, score);
+    }
+
+    updateXP(model, mode, score){
+        let multiplier = 1;
+        if(mode == 0){
+            multiplier = 1;
+        } else if (mode == 1){
+            multiplier = 1.2;
+        } else if (mode == 2){
+            multiplier = 0.16
+        }
+        if(score < 0){
+            score = 0;
+        }
+        model.level[1] += score;
+        if(model.level[1] > 5000){
+            let temp = model.level[1];
+            temp = temp - 5000;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        }
     }
 
     getCurrentScore() {

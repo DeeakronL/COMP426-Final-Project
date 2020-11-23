@@ -30,10 +30,10 @@ export default class View {
             .css('background-image', 'url("/public/menu_test.png")');
         this.div.append(leader);
 
-        let scoreboard = $(`<div class="score" style="top: 600px;position:fixed">Score: ${model.currentScore}</div>`);
-        let highScoreboard1 = $(`<div class="highUp" style="top: 650px;position:fixed">High Score (Up): ${model.score.up}</div>`);
-        let highScoreboard2 = $(`<div class="highCareful" style="top: 670px;position:fixed">High Score (Careful): ${model.score.careful}</div>`);
-        let highScoreboard3 = $(`<div class="highQuick" style="top: 690px;position:fixed">High Score (Quick): ${model.score.quick}</div>`);
+        let scoreboard = $(`<div class="score" style="top: 650px;position:fixed">Score: ${model.currentScore}</div>`);
+        let highScoreboard1 = $(`<div class="highUp" style="top: 670px;position:fixed">High Score (Up): ${model.score.up}</div>`);
+        let highScoreboard2 = $(`<div class="highCareful" style="top: 690px;position:fixed">High Score (Careful): ${model.score.careful}</div>`);
+        let highScoreboard3 = $(`<div class="highQuick" style="top: 710px;position:fixed">High Score (Quick): ${model.score.quick}</div>`);
         this.div.append(scoreboard);
         this.div.append(highScoreboard1);
         this.div.append(highScoreboard2);
