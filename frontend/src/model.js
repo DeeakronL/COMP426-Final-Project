@@ -17,7 +17,7 @@ export default class Model {
     }
 
     loadGame(gameState){
-        this.crosshair = gameState.crosshair;
+        this.switchCrosshairLite(gameState.crosshair);
         this.user = gameState.user;
         this.level = gameState.level;
         this.pass = gameState.pass;
@@ -27,7 +27,7 @@ export default class Model {
             quick: gameState.score[2]
         }
         this.mode = 0;
-        //this.updateListeners(Model.Event.TIMEOUT);
+        this.updateListeners(Model.Event.LEVELUP);
         //this.starting = "no";
     }
 
@@ -85,6 +85,11 @@ export default class Model {
         }
     }
 
+    switchCrosshairLite(type){
+        this.crosshair = type;
+        this.updateListeners(Model.Event.CROSSHAIR);
+    }
+
     updateScore(score, type) {
         if(type == "target"){
             this.currentScore += score;
@@ -138,6 +143,10 @@ export default class Model {
 
     onCrosshair(callback){
         this.addListener(callback, Model.Event.CROSSHAIR);
+    }
+
+    onLevelUp(callback){
+        this.addListener(callback, Model.Event.LEVELUP);
     }
 
     quickTime(model){
@@ -263,4 +272,5 @@ Model.Event = {
     DRAW: 5,
     BANG: 6,
     CROSSHAIR: 7,
+    LEVELUP: 8,
 }

@@ -45,6 +45,7 @@ export default class View {
         model.onDraw((gameState) => {this.draw()});
         model.onBang((gameState) => {this.bang(model)});
         model.onCrosshair((gameState) => {this.updateCursor(gameState.crosshair)});
+        model.onLevelUp((gameState) => {this.updateLevel(gameState.level)});
         this.reset = true;
         let view = this;
         model.onModeChange((gameState) => {this.setupTargets(model.mode, view, model, view.setup); this.newBack()})
@@ -299,6 +300,38 @@ export default class View {
         } else if (mode == 2){
             $(".highQuick").html(`High Score (Quick): ${Math.floor(score.quick)}`)
         }
+    }
+
+    updateLevel(level){
+        let lvl = level[0];
+        if(lvl >= 0){};
+        if(lvl >= 1){
+            $(".cross1").css('background-image', `url("/public/button_n00b.png")`);
+        } else {$(".cross1").css('background-image', `url("/public/locked_n00b.png")`);};
+        if(lvl >= 2){
+            $(".cross2").css('background-image', `url("/public/button_arr.png")`);
+        } else {$(".cross2").css('background-image', `url("/public/locked_arr.png")`);};
+        if(lvl >= 3){
+            $(".cross3").css('background-image', `url("/public/button_x.png")`);
+        } else {$(".cross3").css('background-image', `url("/public/locked_x.png")`);};
+        if(lvl >= 4){
+            $(".cross4").css('background-image', `url("/public/button_oldstyle.png")`);
+        } else {$(".cross4").css('background-image', `url("/public/locked_oldstyle.png")`);};
+        if(lvl >= 5){
+            $(".cross5").css('background-image', `url("/public/button_east.png")`);
+        } else {$(".cross5").css('background-image', `url("/public/locked_east.png")`);};
+        if(lvl >= 6){
+            $(".cross6").css('background-image', `url("/public/button_hands.png")`);
+        } else {$(".cross6").css('background-image', `url("/public/locked_hands.png")`);};
+        if(lvl >= 7){
+            $(".cross7").css('background-image', `url("/public/button_square.png")`);
+        } else {$(".cross7").css('background-image', `url("/public/locked_square.png")`);};
+        if(lvl >= 8){
+            $(".cross8").css('background-image', `url("/public/button_elite.png")`);
+        } else {$(".cross8").css('background-image', `url("/public/locked_elite.png")`);};
+        if(lvl >= 9){
+            $(".cross9").css('background-image', `url("/public/button_crown.png")`);
+        } else {$(".cross9").css('background-image', `url("/public/locked_crown.png")`);};
     }
 
     start() {
