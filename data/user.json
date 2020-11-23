@@ -138,5 +138,14 @@
       0
     ],
     "crosshair": "default"
+  },
+  "undefined": {
+    "username": "undefined",
+    "password": "",
+    "score": [
+      0,
+      0,
+      0
+    ]
   }
 }

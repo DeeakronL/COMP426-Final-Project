@@ -81,7 +81,7 @@ app.delete('/userData/:username/:password', (req, res) => {
         res.status(401).send("Wrong password to account.");
         return;
     }
-    u.delete();
+    u[0].delete();
     res.json(true);
     return;
 });

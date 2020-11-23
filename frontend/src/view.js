@@ -408,16 +408,18 @@ export default class View {
         let pass = event.target.parentNode.childNodes[3].childNodes[3].childNodes[1].value;
         async function doLogIn(user, pass){
             let result;
+            let error2 = false;
             result = await axios ({
                 method: 'get',
                 url: `/userData/${user}/${pass}`,
             }).catch(function(error){
-                //console.log(error.response.data);
+                console.log(error.response + "yay?");
                 let text = error.response.data;
                 $(".error").html(`${text}`);
+                error2 = true;
             });
 
-            if (result != undefined){
+            if (result != undefined && !error2){
                 model.resetting = false;
                 let gameState = {
                     user: result.data.username,
@@ -507,8 +509,66 @@ export default class View {
 
     delete(model){
         if(model.starting == "no" && model.resetting == false && model.loggedIn){
+            model.resetting = true;
+            let view = this;
+            let div = $(`
+                <div class="warning" style="height: 200px;width: 200px; background-color: white; border:1px solid #000; margin: auto">
+                    <div>Are you sure you want to delete your account?</div>
+                    <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="yes">Yes</button>
+                    <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="no">No</button>
+                    <div style="color: red" class="error"></div>
+                </div>
+            `)
+                .css("position", "absolute")
+                .css("left", "400px");
+            $("#root").on("click", ".yes", function (event) {view.handleDelete(model)});
+            $("#root").on("click", ".no", function (event) {model.resetting = false; $(".warning").remove()});
+            this.window.append(div);
+        }
+    }
+
+    handleDelete(model){
+        let view = this;
+        let user = model.user;
+        let pass = model.pass;
+        async function doDelete(user, pass){
+            let result;
+            result = await axios ({
+                method: 'delete',
+                url: `/userData/${user}/${pass}`,
+            }).catch(function(error){
+                //console.log(error.response.data);
+                let text = error.response.data;
+                $(".error").html(`${text}`);
+            });
+
+            if (result != undefined){
+                model.resetting = false;
+                let gameState = {
+                    user: "Jesse",
+                    pass: "",
+                    score: [0,0,0],
+                    level: [0,0],
+                    crosshair: "default",
+                }
+                model.loadGame(gameState);
+                view.updateHighScore(0, model.score);
+                view.updateHighScore(1, model.score);
+                view.updateHighScore(2, model.score);
+                view.updateScore(0);
+                $(".logOut").css("background-color","gray");
+                $(".save").css("background-color","gray");
+                $(".delete").css("background-color","gray");
+                $(".signUp").css("background-color","");
+                $(".logIn").css("background-color","");
+                model.loggedIn = false;
+                $(".warning").remove();
+                console.log("yay!");
+            }
+            
 
         }
+        doDelete(user, pass);
     }
 }
 
