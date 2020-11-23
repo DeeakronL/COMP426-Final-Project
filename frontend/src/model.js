@@ -13,14 +13,22 @@ export default class Model {
         this.draw = "naw";
         this.resetting = false;
         this.loggedIn = false;
+        this.pass = "";
     }
 
     loadGame(gameState){
-        this.score = gameState.score;
-        this.crosshair = gameState.score;
+        this.crosshair = gameState.crosshair;
         this.user = gameState.user;
         this.level = gameState.level;
-        this.starting = "no";
+        this.pass = gameState.pass;
+        this.score = {
+            up: gameState.score[0],
+            careful: gameState.score[1],
+            quick: gameState.score[2]
+        }
+        this.mode = 0;
+        //this.updateListeners(Model.Event.TIMEOUT);
+        //this.starting = "no";
     }
 
     getGameState() {
@@ -169,7 +177,7 @@ export default class Model {
             //let alertFunc = function() {alert("time's up")};
             //let times = this.timeOut();
             if(mode == 0 || mode == 1){
-                setTimeout(function (event) {model.timeOut(model, mode)}, 6000);
+                setTimeout(function (event) {model.timeOut(model, mode)}, 60000);
             } else if (mode == 2){
                 let randTime = Math.random()*5000;
                 let d = new Date();

@@ -220,16 +220,16 @@ export default class View {
     }
 
     updateScore(score){
-        $(".score").html(`Score: ${score}`);
+        $(".score").html(`Score: ${Math.floor(score)}`);
     }
 
     updateHighScore(mode, score){
         if(mode == 0){
-            $(".highUp").html(`High Score (Up): ${score.up}`);
+            $(".highUp").html(`High Score (Up): ${Math.floor(score.up)}`);
         } else if (mode == 1){
-            $(".highCareful").html(`High Score (Careful): ${score.careful}`);
+            $(".highCareful").html(`High Score (Careful): ${Math.floor(score.careful)}`);
         } else if (mode == 2){
-            $(".highQuick").html(`High Score (Quick): ${score.quick}`)
+            $(".highQuick").html(`High Score (Quick): ${Math.floor(score.quick)}`)
         }
     }
 
@@ -283,32 +283,62 @@ export default class View {
     showForm(model, form){
         let view = this;
         if(model.starting == "no" && model.resetting == false && model.loggedIn == false){
-            model.resetting = true;
-            let div =$(
-                `<form class="form">
-                    <div style="height: 200px;width: 200px; background-color: white; border:1px solid #000; margin: auto">
-                        <div class="field">
-                            <label class="label">Username:</label>
-                        <div class="control">
-                            <input class="username" type="text" value="${model.user}">
+            if(form == "sign up"){
+                model.resetting = true;
+                let div =$(
+                    `<form class="form">
+                        <div style="height: 200px;width: 200px; background-color: white; border:1px solid #000; margin: auto">
+                            <div class="field">
+                                <label class="label">Username:</label>
+                            <div class="control">
+                                <input class="username" type="text" value="${model.user}">
+                            </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Password:</label>
+                            <div class="control">
+                                <input class="password" type="password" value="">
+                            </div>
+                            </div>
+                            <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="submit">Sign Up</button>
+                            <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="cancel">Cancel</button>
+                            <div style="color: red" class="error"></div>
                         </div>
+                    </form>`)
+                    .css("position", "absolute")
+                    .css("left", "400px");
+                $("#root").on("click", ".submit", function (event) {view.handleSignUp(model, event)});
+                $("#root").on("click", ".cancel", function (event) {model.resetting = false; $(".form").remove()});
+                this.window.append(div);
+            } else if(form == "log in") {
+                model.resetting = true;
+                let div =$(
+                    `<form class="form">
+                        <div style="height: 200px;width: 200px; background-color: white; border:1px solid #000; margin: auto">
+                            <div class="field">
+                                <label class="label">Username:</label>
+                            <div class="control">
+                                <input class="username" type="text" value="${model.user}">
+                            </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Password:</label>
+                            <div class="control">
+                                <input class="password" type="password" value="">
+                            </div>
+                            </div>
+                            <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="submit">Log In</button>
+                            <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="cancel">Cancel</button>
+                            <div style="color: red" class="error"></div>
                         </div>
-                        <div class="field">
-                            <label class="label">Password:</label>
-                        <div class="control">
-                            <input class="password" type="password" value="">
-                        </div>
-                        </div>
-                        <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="submit">Sign Up</button>
-                        <button style="width:100px;height:50px;border:1px solid #000;-ms-transform: translateX(50%);transform: translateX(50%)" class="cancel">Cancel</button>
-                        <div style="color: red" class="error"></div>
-                    </div>
-                </form>`)
-                .css("position", "absolute")
-                .css("left", "400px");
-            $("#root").on("click", ".submit", function (event) {view.handleSignUp(model, event)});
-            $("#root").on("click", ".cancel", function (event) {model.resetting = false; $(".form").remove()});
-            this.window.append(div);
+                    </form>`)
+                    .css("position", "absolute")
+                    .css("left", "400px");
+                $("#root").on("click", ".submit", function (event) {view.handleLogIn(model, event)});
+                $("#root").on("click", ".cancel", function (event) {model.resetting = false; $(".form").remove()});
+                this.window.append(div);
+            }
+            
         }
     }
 
@@ -323,7 +353,6 @@ export default class View {
         let score = [model.score.up, model.score.careful, model.score.quick];
         let level = model.level;
         let crosshair = model.crosshair;
-        console.log(user, pass);
         async function doSignUp(user, pass, score, level, crosshair){
             let result;
             result = await axios ({
@@ -354,6 +383,45 @@ export default class View {
 
         }
         doSignUp(user, pass, score, level, crosshair);
+    }
+
+    handleLogIn(model, event){
+        let view = this;
+        event.preventDefault();
+        let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;//.elements[1].elements[0].value;
+        let pass = event.target.parentNode.childNodes[3].childNodes[3].childNodes[1].value;
+        async function doLogIn(user, pass){
+            let result;
+            result = await axios ({
+                method: 'get',
+                url: `/userData/${user}/${pass}`,
+            }).catch(function(error){
+                //console.log(error.response.data);
+                let text = error.response.data;
+                $(".error").html(`${text}`);
+            });
+
+            if (result != undefined){
+                model.resetting = false;
+                let gameState = {
+                    user: result.data.username,
+                    pass: pass,
+                    score: result.data.score,
+                    level: result.data.level,
+                    crosshair: result.data.crosshair,
+                }
+                model.loadGame(gameState);
+                view.updateHighScore(0, model.score);
+                view.updateHighScore(1, model.score);
+                view.updateHighScore(2, model.score);
+                model.loggedIn = true;
+                $(".form").remove();
+                console.log("yay!");
+            }
+            
+
+        }
+        doLogIn(user, pass);
     }
 
     newBack(){
@@ -431,7 +499,7 @@ class Target {
 }
 
 function circleMath(x,y,cx,cy,r){
-    console.log(x, y, cx, cy, r);
+    //console.log(x, y, cx, cy, r);
     //console.log(((x-cx) * (x-cx)) + ((y-cy) * (y-cy)), (r * r));
     //console.log(x - cx, (x-cx) * (x-cx));
     if( ((x-cx) * (x-cx)) + ((y-cy) * (y-cy)) > (r * r)  ) {
@@ -443,7 +511,8 @@ function circleMath(x,y,cx,cy,r){
 }
 
 function circleMathScore(x, y, cx, cy, r){
-    return 100 - (((x-cx) * (x-cx)) + ((y-cy) * (y-cy)))/( r*r );
+    console.log(100 * (1 - (((x-cx) * (x-cx)) + ((y-cy) * (y-cy)))/( r*r )));
+    return 100 * (1 - (((x-cx) * (x-cx)) + ((y-cy) * (y-cy)))/( r*r ));
 }
 
 function randomCoords() {

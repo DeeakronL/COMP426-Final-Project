@@ -29,7 +29,7 @@ export default class Controller {
         $("#root").on("click", ".leftMode", function(event) {switcher(model, model.mode, "left")});
         $("#root").on("click", ".rightMode", function(event) {switcher(model, model.mode, "right")});
         $("#root").on("click", ".signUp", function(event) {view.showForm(model, "sign up")});
-        //$("#root").on("click", ".logIn", function(event) {view.showForm(model, "log in")});
+        $("#root").on("click", ".logIn", function(event) {view.showForm(model, "log in")});
     }
 
     
