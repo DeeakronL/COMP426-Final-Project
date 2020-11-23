@@ -516,8 +516,8 @@ class Target {
     constructor(size, type, x, y, number, model, state) {
         this.div = $(`<img src="/public/${type}.png" class="target target${number}" value="${number}" draggable="false">`)
             .css('position','absolute')
-            .css('left', (x - 50) + "px")
-            .css('top', (y - 50) + "px");
+            .css('left', (x - 56) + "px")
+            .css('top', (y - 56) + "px");
         if(type == "target_draw"){
             this.div.css('left', (x - 100) + "px");
             this.div.css('right', (y - 100) + "px");
