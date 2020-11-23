@@ -30,6 +30,9 @@ export default class Controller {
         $("#root").on("click", ".rightMode", function(event) {switcher(model, model.mode, "right")});
         $("#root").on("click", ".signUp", function(event) {view.showForm(model, "sign up")});
         $("#root").on("click", ".logIn", function(event) {view.showForm(model, "log in")});
+        $("#root").on("click", ".logOut", function(event) {view.logOut(model)});
+        $("#root").on("click", ".save", function(event) {view.save(model)});
+        $("#root").on("click", ".delete", function(event) {view.delete(model)});
     }
 
     

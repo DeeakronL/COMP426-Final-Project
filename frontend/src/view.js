@@ -102,6 +102,18 @@ export default class View {
             .css('position', 'absolute')
             .css('left', '25px')
             .css('top', '260px');
+        let button8 = $(`<button style="width:100px;height:50px;border:1px solid #000;background-color:gray" class="logOut">Log Out</button>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '310px');
+        let button9 = $(`<button style="width:100px;height:50px;border:1px solid #000;background-color:gray" class="save">Save Progress</button>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '360px');
+        let button10 = $(`<button style="width:100px;height:50px;border:1px solid #000;background-color:gray" class="delete">Delete Account</button>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '410px');
         menu.append(button1);
         menu.append(button2);
         menu.append(button3);
@@ -109,6 +121,9 @@ export default class View {
         menu.append(button5);
         menu.append(button6);
         menu.append(button7);
+        menu.append(button8);
+        menu.append(button9);
+        menu.append(button10);
         this.setup = "done";
         async function getLeaders(){
             let result = await axios ({
@@ -342,10 +357,6 @@ export default class View {
         }
     }
 
-    removeForm(model, form){
-
-    }
-
     handleSignUp(model, event){
         event.preventDefault();
         let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;//.elements[1].elements[0].value;
@@ -376,6 +387,11 @@ export default class View {
                 model.user = user;
                 model.pass = pass;
                 model.loggedIn = true;
+                $(".logOut").css("background-color","");
+                $(".save").css("background-color","");
+                $(".delete").css("background-color","");
+                $(".signUp").css("background-color","gray");
+                $(".logIn").css("background-color","gray");
                 $(".form").remove();
                 console.log("yay!");
             }
@@ -414,7 +430,13 @@ export default class View {
                 view.updateHighScore(0, model.score);
                 view.updateHighScore(1, model.score);
                 view.updateHighScore(2, model.score);
+                view.updateScore(0);
                 model.loggedIn = true;
+                $(".logOut").css("background-color","");
+                $(".save").css("background-color","");
+                $(".delete").css("background-color","");
+                $(".signUp").css("background-color","gray");
+                $(".logIn").css("background-color","gray");
                 $(".form").remove();
                 console.log("yay!");
             }
@@ -427,6 +449,66 @@ export default class View {
     newBack(){
         let back = randomBackground();
         $(".window").css('background-image', `url("/public/background_${back}.png")`)
+    }
+
+    logOut(model){
+        if(model.starting == "no" && model.resetting == false && model.loggedIn){
+            let view = this;
+            this.save(model);
+            let gameState = {
+                user: "Jesse",
+                pass: "",
+                score: [0,0,0],
+                level: [0,0],
+                crosshair: "default",
+            }
+            model.loadGame(gameState);
+            view.updateHighScore(0, model.score);
+            view.updateHighScore(1, model.score);
+            view.updateHighScore(2, model.score);
+            view.updateScore(0);
+            $(".logOut").css("background-color","gray");
+            $(".save").css("background-color","gray");
+            $(".delete").css("background-color","gray");
+            $(".signUp").css("background-color","");
+            $(".logIn").css("background-color","");
+            model.loggedIn = false;
+        }
+    }
+
+    save(model){
+        if(model.starting == "no" && model.resetting == false && model.loggedIn){
+            let score = [model.score.up, model.score.careful, model.score.quick];
+            let level = model.level;
+            let crosshair = model.crosshair;
+            async function doSave(user, pass, score, level, crosshair){
+                let result;
+                result = await axios ({
+                    method: 'put',
+                    url: `/userData/${user}/${pass}`,
+                    params: {
+                        score: score,
+                        level: level,
+                        crosshair: crosshair,
+                    }
+                }).catch(function(error){
+                    //console.log(error.response.data);
+                    let text = error.response.data;
+                    alert(text);
+                });
+    
+                if (result != undefined){
+                    
+                }
+            }
+            doSave(model.user, model.pass, score, level, crosshair);
+        }
+    }
+
+    delete(model){
+        if(model.starting == "no" && model.resetting == false && model.loggedIn){
+
+        }
     }
 }
 
