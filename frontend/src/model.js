@@ -170,6 +170,7 @@ export default class Model {
             return "ur dead";
         } else {
             this.draw = "naw";
+            this.draw2 = false;
             this.updateListeners(Model.Event.BANG);
             return "ur not dead";
         }
@@ -181,6 +182,7 @@ export default class Model {
             this.updateListeners(Model.Event.BANG);
             this.updateListeners(Model.Event.URDEAD);
             this.draw = "naw";
+            this.draw2 = false;
             this.timeOut(this, this.mode);
             //alert("you died");
         }
@@ -206,14 +208,18 @@ export default class Model {
                 let d = new Date();
                 this.time = d.getTime();
                 this.draw = "currently...";
+                this.draw2 = false;
+                this.time2 = 0;
                 setTimeout(function (event) {
                     if(model.draw == "currently..."){
                         setTimeout(function (event) {
+                            //console.log(randTime);
                             if(model.draw == "currently..."){
+                                model.draw2 = true;
                                 let d2 = new Date();
                                 model.time2 = d2.getTime();
                                 model.updateDraw();
-                                setTimeout(function(event) {if(model.draw == "currently...") {model.urDead()}}, 5000) 
+                                setTimeout(function(event) {if(model.draw == "currently..." && model.draw2) {model.urDead()}}, 5000) 
                             }
                             
                         }, randTime)
