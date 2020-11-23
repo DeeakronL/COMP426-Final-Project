@@ -486,7 +486,7 @@ export default class View {
                 result = await axios ({
                     method: 'put',
                     url: `/userData/${user}/${pass}`,
-                    params: {
+                    data: {
                         score: score,
                         level: level,
                         crosshair: crosshair,
