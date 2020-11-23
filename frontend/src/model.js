@@ -213,7 +213,7 @@ export default class Model {
                                 let d2 = new Date();
                                 model.time2 = d2.getTime();
                                 model.updateDraw();
-                                setTimeout(function(event) {model.urDead()}, 5000) 
+                                setTimeout(function(event) {if(model.draw == "currently...") {model.urDead()}}, 5000) 
                             }
                             
                         }, randTime)
