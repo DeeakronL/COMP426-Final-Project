@@ -62,9 +62,9 @@ app.put('/userData/:username/:password', (req, res) => {
     }
 
     let {score, level, crosshair} = req.body;
-    //u[0].score = score;
-    //u[0].level = level;
-    //u[0].crosshair = crosshair;
+    u[0].score = score;
+    u[0].level = level;
+    u[0].crosshair = crosshair;
     
     u[0].update();
 
