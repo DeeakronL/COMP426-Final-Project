@@ -32,7 +32,7 @@ UserData.getAllScores = (mode) => {
 UserData.findByUsername = (username, password) => {
     let user = stored_data.get(username);
     let u = new UserData(user.username, user.password, user.score, user.level, user.crosshair);
-    if (u == null) {
+    if (user == null) {
         return [null, false];
     } else if (u.password == password) {
         return [u, true];
