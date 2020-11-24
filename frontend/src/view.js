@@ -585,7 +585,7 @@ export default class View {
             let result;
             result = await axios ({
                 method: 'get',
-                url: `/userData/${user}/${pass}`,
+                url: `/userData/users/${user}/${pass}`,
             }).catch(function(error){
                 let text = error.response.data;
                 $(".error").html(`${text}`);
