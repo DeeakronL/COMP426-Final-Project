@@ -792,7 +792,7 @@ export default class View {
     }
 
     updateXP(level){
-        $('.levelMeter').html(`Level: ${level[0]}      XP: ${level[1]}`);
+        $('.levelMeter').html(`Level: ${level[0]}      XP: ${Math.floor(level[1])}`);
     }
 }
 

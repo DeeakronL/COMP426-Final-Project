@@ -26,7 +26,7 @@ export default class Model {
             careful: gameState.score[1],
             quick: gameState.score[2]
         }
-        this.mode = 0;
+        this.switchMode(0);
         this.updateListeners(Model.Event.LEVELUP);
         this.updateListeners(Model.Event.XP);
         this.updateListeners(Model.Event.LEADER);
