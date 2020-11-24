@@ -44,6 +44,7 @@ app.get('/userData/scores/:username', (req, res) => {
         res.status(404).send("Username not found");
         return;
     }
+    u.sort();
     res.json(u[0]);
     return;
 })
