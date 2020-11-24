@@ -38,6 +38,8 @@ export default class View {
         this.div.append(highScoreboard1);
         this.div.append(highScoreboard2);
         this.div.append(highScoreboard3);
+        let levelMeter = $(`<div class="levelMeter" style="top: 630px; width: 1132px; position:fixed;border:1px solid #000">Level: ${model.level[0]}      XP: ${model.level[1]}</div>`);
+        this.div.append(levelMeter);
         let scoreLookUp = $(`<div class="lookUp" style="top: 650px; left: 575px; width:565px; height:78px; position:fixed;border: 1px solid #000; text-align: center">Find a User's Score</div>`);
         this.div.append(scoreLookUp);
         let formScore = $(
@@ -65,6 +67,7 @@ export default class View {
         model.onBang((gameState) => {this.bang(model)});
         model.onCrosshair((gameState) => {this.updateCursor(gameState.crosshair)});
         model.onLevelUp((gameState) => {this.updateLevel(gameState.level)});
+        model.onXP((gameState) => {this.updateXP(gameState.level)});
         model.onLeaderChange((gameState) => {this.updateLeaders(model)});
         this.reset = true;
         let view = this;
@@ -835,6 +838,10 @@ export default class View {
             //$('.scoreUp').html(`Up: `)
         }
         
+    }
+
+    updateXP(level){
+        $('.levelMeter').html(`Level: ${level[0]}      XP: ${level[1]}`);
     }
 }
 

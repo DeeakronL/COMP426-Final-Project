@@ -28,6 +28,7 @@ export default class Model {
         }
         this.mode = 0;
         this.updateListeners(Model.Event.LEVELUP);
+        this.updateListeners(Model.Event.XP);
         this.updateListeners(Model.Event.LEADER);
         //this.starting = "no";
     }
@@ -157,6 +158,10 @@ export default class Model {
 
     onLeaderChange(callback){
         this.addListener(callback, Model.Event.LEADER);
+    }
+
+    onXP(callback){
+        this.addListener(callback, Model.Event.XP);
     }
 
     quickTime(model){
@@ -343,6 +348,7 @@ export default class Model {
             model.level[0]++;
             model.updateListeners(Model.Event.LEVELUP);
         }
+        model.updateListeners(Model.Event.XP);
     }
 
     getCurrentScore() {
@@ -361,5 +367,6 @@ Model.Event = {
     BANG: 6,
     CROSSHAIR: 7,
     LEVELUP: 8,
-    LEADER: 9
+    LEADER: 9,
+    XP: 10,
 }
