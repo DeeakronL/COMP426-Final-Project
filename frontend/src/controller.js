@@ -82,8 +82,24 @@ function autoComplete(event){
     if(event.which == '13'){
         event.preventDefault();
     }
+    let value = event.target.value + event.originalEvent.key;
     //event.preventDefault();
-    console.log(event.originalEvent.key);
-    $(`.scoreAuto`).attr('value',event.originalEvent.key);
+    console.log(value);
+    async function doAutoComplete(filter){
+        let result;
+        console.log(filter);
+        result = await axios ({
+            method: 'get',
+            url: `/userData/filter/${filter}`,
+        }).catch(function(error){
+            //console.log(error.response.data);
+            let text = error.response.data;
+            $(".error").html(`${text}`);
+        });
+        if(result != undefined){
+            $(".scoreAuto").attr('value',result.data[0]);
+        }
+    }
+    doAutoComplete(value);
     
 }
