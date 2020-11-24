@@ -4,7 +4,7 @@ export default class View {
         this.setup = "not done";
         this.div = $(`<div class="main"></div>`);
         let window = $(`<div class="window"></div>`)
-            .css('position','fixed')
+            .css('position','absolute')
             .css('width',  1000 + "px")
             .css('height', 500 + "px")
             .css('margin','auto')
@@ -178,8 +178,89 @@ export default class View {
         this.div.append(crossButton7);
         this.div.append(crossButton8);
         this.div.append(crossButton9);
+
+        let leadersTop = $(`<div style="width:100px;height:60px;border:1px solid #000" class="top">Top 10: <br>Shoot 'em Up</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '10px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        let leadersTop1 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top1">1:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '70px')
+            .css('text-align', 'center')
+            .css('background-color','gold');
+        let leadersTop2 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top2">2:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '110px')
+            .css('text-align', 'center')
+            .css('background-color','silver');
+        let leadersTop3 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top3">3:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '150px')
+            .css('text-align', 'center')
+            .css('background-color','saddlebrown');
+        let leadersTop4 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top4">4:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '190px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        let leadersTop5 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top5">5:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '230px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        let leadersTop6 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top6">6:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '270px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        let leadersTop7 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top7">7:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '310px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        let leadersTop8 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top8">8:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '350px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        let leadersTop9 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top9">9:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '390px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        let leadersTop10 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top10">10:</div>`)
+            .css('position', 'absolute')
+            .css('left', '25px')
+            .css('top', '430px')
+            .css('text-align', 'center')
+            .css('background-color','#efefef');
+        leader.append(leadersTop);
+        leader.append(leadersTop1);
+        leader.append(leadersTop2);
+        leader.append(leadersTop3);
+        leader.append(leadersTop4);
+        leader.append(leadersTop5);
+        leader.append(leadersTop6);
+        leader.append(leadersTop7);
+        leader.append(leadersTop8);
+        leader.append(leadersTop9);
+        leader.append(leadersTop10);
         this.setup = "done";
-        async function getLeaders(){
+
+
+
+        /*async function getLeaders(){
             let result = await axios ({
                 method: 'get',
                 url: '/userData',
@@ -187,7 +268,7 @@ export default class View {
             $(".leader").html(`${result.data}`);
 
         }
-        getLeaders();
+        getLeaders();*/
     }
 
     createNewTarget(number, model, state) {
