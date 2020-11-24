@@ -87,7 +87,4 @@ UserData.create = (username, password, score, level, crosshair) => {
     return [u,unique];
 }
 
-//let user1 = new UserData("c00lguy1337", "password", [100, 200, 300], 4, "default");
-//stored_data.set(user1.username, user1);
-
 module.exports = UserData;

@@ -147,5 +147,47 @@
       0,
       0
     ]
+  },
+  "hackerman": {
+    "username": "hackerman",
+    "password": "hacker",
+    "score": [
+      0,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
+  },
+  "Badlands Pete": {
+    "username": "Badlands Pete",
+    "password": "1337",
+    "score": [
+      0,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
+  },
+  "Heavy": {
+    "username": "Heavy",
+    "password": "pootis",
+    "score": [
+      0,
+      0,
+      0
+    ],
+    "level": [
+      0,
+      0
+    ],
+    "crosshair": "default"
   }
 }
