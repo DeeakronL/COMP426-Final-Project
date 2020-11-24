@@ -44,7 +44,7 @@ export default class View {
             `<form class="formScore">
                 <div>
                     <input class="scoreAuto" type="text" value="" style="position: absolute; left:115px"></input>
-                    <button class="formScoreAuto" type="submit"style="width:100px;height:20px;border:1px solid #000; top: 19px;position: absolute"></button>
+                    <button class="formScoreAuto" type="submit"style="width:175px;height:20px;border:1px solid #000; top: 19px;position: absolute"></button>
                 </div>
             </form>`
         );
@@ -804,27 +804,32 @@ export default class View {
     updateScoreFinder(event, model){
         event.preventDefault();
         let user = event.target.innerHTML;
-        //let event.target.
-        async function doScoreGet(user) {
-            let result;
-            result = await axios ({
-                method: 'get',
-                url: `/userData/scores/${user}`,
-            }).catch(function(error){
-                //console.log(error.response.data);
-                let text = error.response.data;
-                $(".error").html(`${text}`);
-            });
-            if(result != undefined){
-                console.log(result);
-                $('.scoreUp').html(`Up: ${Math.floor(result.data.score[0])}`);
-                $('.scoreCareful').html(`Careful: ${Math.floor(result.data.score[1])}`);
-                $('.scoreQuick').html(`Quick: ${Math.floor(result.data.score[2])}`);
-                //console.log(result.data[0]);
+        if(user == undefined || user == ""){
+
+        } else {
+            //let event.target.
+            async function doScoreGet(user) {
+                let result;
+                result = await axios ({
+                    method: 'get',
+                    url: `/userData/scores/${user}`,
+                }).catch(function(error){
+                    //console.log(error.response.data);
+                    let text = error.response.data;
+                    $(".error").html(`${text}`);
+                });
+                if(result != undefined){
+                    console.log(result);
+                    $('.scoreUp').html(`Up: ${Math.floor(result.data.score[0])}`);
+                    $('.scoreCareful').html(`Careful: ${Math.floor(result.data.score[1])}`);
+                    $('.scoreQuick').html(`Quick: ${Math.floor(result.data.score[2])}`);
+                    //console.log(result.data[0]);
+                }
             }
+            doScoreGet(user);
+            //$('.scoreUp').html(`Up: `)
         }
-        doScoreGet(user);
-        //$('.scoreUp').html(`Up: `)
+        
     }
 }
 

@@ -288,9 +288,57 @@ export default class Model {
             score = 0;
         }
         model.level[1] += score;
-        if(model.level[1] > 5000){
+        if(model.level[1] > 10000 && model.level[0] == 0){
             let temp = model.level[1];
-            temp = temp - 5000;
+            temp = temp - 10000;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 11000 && model.level[0] == 1){
+            let temp = model.level[1];
+            temp = temp - 11000;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 12100 && model.level[0] == 2){
+            let temp = model.level[1];
+            temp = temp - 12100;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 13310 && model.level[0] == 3){
+            let temp = model.level[1];
+            temp = temp - 13310;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 14641 && model.level[0] == 4){
+            let temp = model.level[1];
+            temp = temp - 14641;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 16105 && model.level[0] == 5){
+            let temp = model.level[1];
+            temp = temp - 16105;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 17716 && model.level[0] == 6){
+            let temp = model.level[1];
+            temp = temp - 17716;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 19487 && model.level[0] == 7){
+            let temp = model.level[1];
+            temp = temp - 19487;
+            model.level[1] = temp;
+            model.level[0]++;
+            model.updateListeners(Model.Event.LEVELUP);
+        } else if(model.level[1] > 21436 && model.level[0] >= 8){
+            let temp = model.level[1];
+            temp = temp - 21436;
             model.level[1] = temp;
             model.level[0]++;
             model.updateListeners(Model.Event.LEVELUP);
