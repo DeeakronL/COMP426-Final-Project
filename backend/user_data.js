@@ -24,7 +24,7 @@ UserData.getAllUsernames = () => {
 
 UserData.getAllUsernamesFiltered = (filterValue) => {
     let names = Object.keys(stored_data.data).map((username => {return username}));
-    return names.filter(name => name.toLowerCase.startsWith(filterValue.toLowerCase()));
+    return names.filter(name => name.toLowerCase().startsWith(filterValue.toLowerCase()));
 }
 
 UserData.getAllScores = (mode) => {
