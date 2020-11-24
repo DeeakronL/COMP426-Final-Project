@@ -44,7 +44,7 @@ export default class Controller {
         $("#root").on("click", ".cross8", function(event) {model.switchCrosshair(8, "elite")});
         $("#root").on("click", ".cross9", function(event) {model.switchCrosshair(9, "crown")});
         $("#root").on("keypress", ".scoreAuto", function(event) {autoComplete(event)});
-        $("#root").on("submit", ".scoreAuto", function(event) {event.preventDefault()});
+        $("#root").on("click", ".formScoreAuto", function(event) {view.updateScoreFinder(event, model)});
     }
 
     
@@ -84,7 +84,7 @@ function autoComplete(event){
     }
     let value = event.target.value + event.originalEvent.key;
     //event.preventDefault();
-    console.log(value);
+    console.log(event.which);
     async function doAutoComplete(filter){
         let result;
         console.log(filter);
@@ -97,7 +97,8 @@ function autoComplete(event){
             $(".error").html(`${text}`);
         });
         if(result != undefined){
-            $(".scoreAuto").attr('value',result.data[0]);
+            $(".formScoreAuto").html(result.data[0]);
+            console.log(result.data[0]);
         }
     }
     doAutoComplete(value);
