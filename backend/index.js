@@ -17,8 +17,8 @@ app.get('/userData', (req, res) => {
 
 app.get('/userData/:mode', (req, res) => {
     let leaders = UserData.getAllScores(req.params.mode);
-    leaders.sort(function(a,b) {
-        return a[1] - b[1];
+    leaders.sort((a,b) => {
+        a[1] - b[1];
     });
     let topTen = leaders.slice(0,10);
     res.json(topTen);

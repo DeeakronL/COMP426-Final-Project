@@ -26,7 +26,11 @@ UserData.getAllScores = (mode) => {
     let leaders = [];
     leaders[0] = Object.keys(stored_data.data).map((username => {return username;}));
     leaders[1] = Object.keys(stored_data.data).map((score => {return score[mode];}));
-    return leaders;
+    let result = [];
+    for (let i = 0; i < leaders[0].length; i++) {
+        result[i] = [leaders[0][i], leaders[1][i]];
+    }
+    return result;
 }
 
 UserData.findByUsername = (username, password) => {
