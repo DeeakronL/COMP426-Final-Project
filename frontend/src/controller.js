@@ -43,6 +43,8 @@ export default class Controller {
         $("#root").on("click", ".cross7", function(event) {model.switchCrosshair(7, "square")});
         $("#root").on("click", ".cross8", function(event) {model.switchCrosshair(8, "elite")});
         $("#root").on("click", ".cross9", function(event) {model.switchCrosshair(9, "crown")});
+        $("#root").on("keypress", ".scoreAuto", function(event) {autoComplete(event)});
+        $("#root").on("submit", ".scoreAuto", function(event) {event.preventDefault()});
     }
 
     
@@ -74,4 +76,14 @@ function switcher(model, mode, direction){
     } else if (mode == 2 && direction == "right"){
         model.switchMode(0);
     }
+}
+
+function autoComplete(event){
+    if(event.which == '13'){
+        event.preventDefault();
+    }
+    //event.preventDefault();
+    console.log(event.originalEvent.key);
+    $(`.scoreAuto`).attr('value',event.originalEvent.key);
+    
 }

@@ -30,14 +30,18 @@ export default class View {
             .css('background-image', 'url("/public/menu_test.png")');
         this.div.append(leader);
 
-        let scoreboard = $(`<div class="score" style="top: 650px;position:fixed">Score: ${model.currentScore}</div>`);
-        let highScoreboard1 = $(`<div class="highUp" style="top: 670px;position:fixed">High Score (Up): ${model.score.up}</div>`);
-        let highScoreboard2 = $(`<div class="highCareful" style="top: 690px;position:fixed">High Score (Careful): ${model.score.careful}</div>`);
-        let highScoreboard3 = $(`<div class="highQuick" style="top: 710px;position:fixed">High Score (Quick): ${model.score.quick}</div>`);
+        let scoreboard = $(`<div class="score" style="top: 650px; width: 565px; position:fixed;border:1px solid #000">Score: ${model.currentScore}</div>`);
+        let highScoreboard1 = $(`<div class="highUp" style="top: 670px; width: 565px; position:fixed;border:1px solid #000">High Score (Up): ${model.score.up}</div>`);
+        let highScoreboard2 = $(`<div class="highCareful" style="top: 690px; width: 565px; position:fixed;border:1px solid #000">High Score (Careful): ${model.score.careful}</div>`);
+        let highScoreboard3 = $(`<div class="highQuick" style="top: 710px; width: 565px; position:fixed;border:1px solid #000">High Score (Quick): ${model.score.quick}</div>`);
         this.div.append(scoreboard);
         this.div.append(highScoreboard1);
         this.div.append(highScoreboard2);
         this.div.append(highScoreboard3);
+        let scoreLookUp = $(`<div class="lookUp" style="top: 650px; left: 575px; width:565px; height:78px; position:fixed;border: 1px solid #000; text-align: center">Find a User's Score</div>`);
+        this.div.append(scoreLookUp);
+        let formScore = $(`<form class="formScore"><input class="scoreAuto" type="text" value=""></input></form>`);
+        scoreLookUp.append(formScore);
         model.onScore((gameState) => {this.updateScore(gameState.currentScore)});
         model.onStart((gameState) => {this.start()});
         model.onTimeOut((gameState) => {this.updateHighScore(gameState.mode, gameState.score)});
@@ -767,16 +771,16 @@ export default class View {
                     type = "Quick";
                 }
                 $(`.top`).html(`Top 10: <br>Shoot 'em ${type}`);
-                $(`.top1`).html(`${top10[0][0]}<br>${Math.floor(top10[0][1])}`);
-                $(`.top2`).html(`${top10[1][0]}<br>${Math.floor(top10[1][1])}`);
-                $(`.top3`).html(`${top10[2][0]}<br>${Math.floor(top10[2][1])}`);
-                $(`.top4`).html(`${top10[3][0]}<br>${Math.floor(top10[3][1])}`);
-                $(`.top5`).html(`${top10[4][0]}<br>${Math.floor(top10[4][1])}`);
-                $(`.top6`).html(`${top10[5][0]}<br>${Math.floor(top10[5][1])}`);
-                $(`.top7`).html(`${top10[6][0]}<br>${Math.floor(top10[6][1])}`);
-                $(`.top8`).html(`${top10[7][0]}<br>${Math.floor(top10[7][1])}`);
-                $(`.top9`).html(`${top10[8][0]}<br>${Math.floor(top10[8][1])}`);
-                $(`.top10`).html(`${top10[9][0]}<br>${Math.floor(top10[9][1])}`);
+                $(`.top1`).html(`${top10[0][0].slice(0,11)}<br>${Math.floor(top10[0][1])}`);
+                $(`.top2`).html(`${top10[1][0].slice(0,11)}<br>${Math.floor(top10[1][1])}`);
+                $(`.top3`).html(`${top10[2][0].slice(0,11)}<br>${Math.floor(top10[2][1])}`);
+                $(`.top4`).html(`${top10[3][0].slice(0,11)}<br>${Math.floor(top10[3][1])}`);
+                $(`.top5`).html(`${top10[4][0].slice(0,11)}<br>${Math.floor(top10[4][1])}`);
+                $(`.top6`).html(`${top10[5][0].slice(0,11)}<br>${Math.floor(top10[5][1])}`);
+                $(`.top7`).html(`${top10[6][0].slice(0,11)}<br>${Math.floor(top10[6][1])}`);
+                $(`.top8`).html(`${top10[7][0].slice(0,11)}<br>${Math.floor(top10[7][1])}`);
+                $(`.top9`).html(`${top10[8][0].slice(0,11)}<br>${Math.floor(top10[8][1])}`);
+                $(`.top10`).html(`${top10[9][0].slice(0,11)}<br>${Math.floor(top10[9][1])}`);
             }
         }
         doLeaders(mode);
