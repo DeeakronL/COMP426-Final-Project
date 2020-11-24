@@ -76,29 +76,6 @@ export default class View {
         this.targets = [];
         this.window = window;
         this.setupTargets(model.mode, this, model, this.setup);
-        /*if(model.mode == 0){
-            targets = [];
-            wind
-            let target_loc_1 = randomCoords();
-
-            let target_loc_2 = randomCoords();
-
-            let target_loc_3 = randomCoords();
-
-            let target1 = new Target(10, "target", target_loc_1.x, target_loc_1.y, 0, model, "inactive");
-            let target2 = new Target(10, "target", target_loc_2.x, target_loc_2.y, 1, model, "inactive");
-            let target3 = new Target(10, "target", target_loc_3.x, target_loc_3.y, 2, model, "inactive");
-            targets.push(target1);
-            targets.push(target2);
-            targets.push(target3);
-            this.targets = targets;
-            window.append(target1.div);
-            window.append(target2.div);
-            window.append(target3.div);
-            this.modeName = "Shoot 'em up";
-        } */
-        
-        //let ui = $(`<div></div>`);
         let button1 = $(`<button style="width:100px;height:50px;border:1px solid #000" class="start">Start!</button>`)
             .css('position', 'absolute')
             .css('left', '25px')
@@ -282,27 +259,15 @@ export default class View {
         this.setup = "done";
 
         this.updateLeaders(model);
-
-        /*async function getLeaders(){
-            let result = await axios ({
-                method: 'get',
-                url: '/userData',
-            });
-            $(".leader").html(`${result.data}`);
-
-        }
-        getLeaders();*/
     }
 
     createNewTarget(number, model, state) {
         if(model.mode == 0 || model.mode == 2){
-            console.log("yay" + model);
             let coords = randomCoords();
             let newTarget = new Target(10, "target", coords.x, coords.y, number, model, state);
             this.targets[number] = newTarget;
             this.window.append(newTarget.div);
         } else if (model.mode == 1){
-            console.log("yay" + model);
             let coords1 = randomCoords();
             let coords2 = randomCoords();
             let newTarget1 = new Target(10, "target", coords1.x, coords1.y, number, model, state);
@@ -357,7 +322,6 @@ export default class View {
             let target11 = new Target(10, "target_inv", target_loc_11.x, target_loc_11.y, 0, model, "inactive");
             let target21 = new Target(10, "target_inv", target_loc_21.x, target_loc_21.y, 1, model, "inactive");
             let target31 = new Target(10, "target_inv", target_loc_31.x, target_loc_31.y, 2, model, "inactive");
-            // sp00ky comment
             targets.push(target1);
             targets.push(target2);
             targets.push(target3);
@@ -549,7 +513,7 @@ export default class View {
 
     handleSignUp(model, event){
         event.preventDefault();
-        let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;//.elements[1].elements[0].value;
+        let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;
         let pass = event.target.parentNode.childNodes[3].childNodes[3].childNodes[1].value;
         let score = [model.score.up, model.score.careful, model.score.quick];
         let level = model.level;
@@ -570,7 +534,6 @@ export default class View {
                         crosshair: crosshair,
                     }
                 }).catch(function(error){
-                    //console.log(error.response.data);
                     let text = error.response.data;
                     $(".error").html(`${text}`);
                 });
@@ -586,7 +549,6 @@ export default class View {
                     $(".signUp").css("background-color","gray");
                     $(".logIn").css("background-color","gray");
                     $(".form").remove();
-                    console.log("yay!");
                 }
                 
     
@@ -599,7 +561,7 @@ export default class View {
     handleLogIn(model, event){
         let view = this;
         event.preventDefault();
-        let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;//.elements[1].elements[0].value;
+        let user = event.target.parentNode.childNodes[1].childNodes[3].childNodes[1].value;
         let pass = event.target.parentNode.childNodes[3].childNodes[3].childNodes[1].value;
         if (pass == ""){
             pass = "ouhwggiuwyt87iugrhgi8gwiuhiuw";
@@ -635,7 +597,6 @@ export default class View {
                 $(".signUp").css("background-color","gray");
                 $(".logIn").css("background-color","gray");
                 $(".form").remove();
-                console.log("yay!");
             }
             
 
@@ -689,7 +650,6 @@ export default class View {
                         crosshair: crosshair,
                     }
                 }).catch(function(error){
-                    //console.log(error.response.data);
                     let text = error.response.data;
                     alert(text);
                 });
@@ -732,7 +692,6 @@ export default class View {
                 method: 'delete',
                 url: `/userData/${user}/${pass}`,
             }).catch(function(error){
-                //console.log(error.response.data);
                 let text = error.response.data;
                 $(".error").html(`${text}`);
             });
@@ -758,7 +717,6 @@ export default class View {
                 $(".logIn").css("background-color","");
                 model.loggedIn = false;
                 $(".warning").remove();
-                console.log("yay!");
             }
             
 
@@ -778,13 +736,11 @@ export default class View {
                 method: 'get',
                 url: `/userData/${mode}`,
             }).catch(function(error){
-                //console.log(error.response.data);
                 let text = error.response.data;
                 $(".error").html(`${text}`);
             });
             if (result != undefined){
                 let top10 = result.data;
-                console.log(top10);
                 let type = "";
                 if(mode == 0){
                     type = "Up";
@@ -815,27 +771,22 @@ export default class View {
         if(user == undefined || user == ""){
 
         } else {
-            //let event.target.
             async function doScoreGet(user) {
                 let result;
                 result = await axios ({
                     method: 'get',
                     url: `/userData/scores/${user}`,
                 }).catch(function(error){
-                    //console.log(error.response.data);
                     let text = error.response.data;
                     $(".error").html(`${text}`);
                 });
                 if(result != undefined){
-                    console.log(result);
                     $('.scoreUp').html(`Up: ${Math.floor(result.data.score[0])}`);
                     $('.scoreCareful').html(`Careful: ${Math.floor(result.data.score[1])}`);
                     $('.scoreQuick').html(`Quick: ${Math.floor(result.data.score[2])}`);
-                    //console.log(result.data[0]);
                 }
             }
             doScoreGet(user);
-            //$('.scoreUp').html(`Up: `)
         }
         
     }
@@ -869,10 +820,9 @@ class Target {
     }
 
     isShot(x, y) {
-        //console.log(x, y, this.x, this.y);
         if(this.type == "target" && this.state == "active" && circleMath(x,y,this.x, this.y,50)){
             this.model.updateScore(circleMathScore(x,y,this.x,this.y,50), this.type);
-            $(`.target${this.number}`).remove();//`.target${this.number}`);
+            $(`.target${this.number}`).remove();
             return true;
         } else if (this.type == "target_inv" && this.state == "active" && circleMath(x,y,this.x, this.y, 50)){
             this.model.updateScore(100, this.type);
@@ -881,7 +831,6 @@ class Target {
         } else if (this.type == "target_draw" && this.state == "active" && circleMath(x,y,this.x, this.y, 100)){
             let result = this.model.quickTime(this.model);
             if(result == "ur dead"){
-                //alert("you died");
                 this.uDied();
             } else {
                 this.noU();
@@ -903,7 +852,6 @@ class Target {
 
     uDied(){
         $(`.target${this.number}`).attr("src", "/public/target_deadeye.png");
-        //this.div.src = "/public/target_deadeye.png";
     }
 
     noU(){
@@ -914,19 +862,14 @@ class Target {
 }
 
 function circleMath(x,y,cx,cy,r){
-    //console.log(x, y, cx, cy, r);
-    //console.log(((x-cx) * (x-cx)) + ((y-cy) * (y-cy)), (r * r));
-    //console.log(x - cx, (x-cx) * (x-cx));
     if( ((x-cx) * (x-cx)) + ((y-cy) * (y-cy)) > (r * r)  ) {
         return false;
     } else {
-        //console.log(((x-cx) * (x-cx)) + ((y-cy) * (y-cy)));
         return true;
     }
 }
 
 function circleMathScore(x, y, cx, cy, r){
-    console.log(100 * (1 - (((x-cx) * (x-cx)) + ((y-cy) * (y-cy)))/( r*r )));
     return 100 * (1 - (((x-cx) * (x-cx)) + ((y-cy) * (y-cy)))/( r*r ));
 }
 

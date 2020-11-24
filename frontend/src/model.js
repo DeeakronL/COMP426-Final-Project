@@ -30,7 +30,6 @@ export default class Model {
         this.updateListeners(Model.Event.LEVELUP);
         this.updateListeners(Model.Event.XP);
         this.updateListeners(Model.Event.LEADER);
-        //this.starting = "no";
     }
 
     save() {
@@ -83,7 +82,6 @@ export default class Model {
     }
 
     switchCrosshair(crosshairNum, type){
-        console.log(this.level, crosshairNum);
         if(this.level[0] < crosshairNum){
 
         } else {
@@ -104,7 +102,6 @@ export default class Model {
             this.currentScore -= score;
         }
         this.updateListeners(Model.Event.SCORE);
-        //console.log(this.currentScore);
     }
 
     async startTimer(mode){
@@ -172,7 +169,6 @@ export default class Model {
             model.urDead();
             return "ur dead";
         }
-        console.log("yay");
         let diff = newTime - (this.time2);
         if(diff > 5000){
             this.timeOut(model, model.mode);
@@ -189,7 +185,6 @@ export default class Model {
             this.updateListeners(Model.Event.BANG);
             return "ur not dead";
         }
-        console.log(newTime - this.time);
     }
 
     urDead(){
@@ -199,7 +194,6 @@ export default class Model {
             this.draw = "naw";
             this.draw2 = false;
             this.timeOut(this, this.mode);
-            //alert("you died");
         }
     }
 
@@ -213,9 +207,6 @@ export default class Model {
         } else if (model.starting == "no"){
             model.starting = "yes";
             this.updateListeners(Model.Event.START);
-            //let promi = new Promise((resolve, reject) => {
-            //let alertFunc = function() {alert("time's up")};
-            //let times = this.timeOut();
             if(mode == 0 || mode == 1){
                 setTimeout(function (event) {model.timeOut(model, mode)}, 60000);
             } else if (mode == 2){
@@ -228,7 +219,6 @@ export default class Model {
                 setTimeout(function (event) {
                     if(model.draw == "currently..."){
                         setTimeout(function (event) {
-                            //console.log(randTime);
                             if(model.draw == "currently..."){
                                 model.draw2 = true;
                                 let d2 = new Date();
@@ -240,22 +230,15 @@ export default class Model {
                         }, randTime)
                     }
                     
-                    //alert("too slow"); model.urDead()
                 }, 5000);
                 
             }
             
-            //});
-            //alertFunc();
-            //promi;
-            //alert("time's up");
-            //this.timeOut();
         }
         
     }
 
     timeOut(model, mode){
-        //console.log("oof");
         model.updateHighScore(model, mode, model.getCurrentScore());
         model.updateListeners(Model.Event.TIMEOUT);
         model.currentScore = 0;
@@ -352,7 +335,6 @@ export default class Model {
     }
 
     getCurrentScore() {
-        console.log("Current Score: " + this.currentScore); 
         return this.currentScore;
     }
 }

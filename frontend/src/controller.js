@@ -7,23 +7,15 @@ export default class Controller {
     
 
     setupTargets(mode){
-        console.log(this.view);
         let view = this.view;
         let model = this.model;
-        console.log(view.targets);
-        //$(`.target`).forEach(element => {
-            //if(element.attr("onClick") == undefined) {
         $("#root").on("click", '.target',function(event) {
             view.targets.forEach(element => {
-                //console.log(event.pageX, event.pageY);
                 if(element.isShot(event.pageX, event.pageY)){
                     view.createNewTarget(element.number, model, "active"); setupTargetsPost(mode, element.number, view, model)
                 }
             });
-            //if(view.targets[event.target.getAttribute("value")].isShot(event.pageX, event.pageY)){view.createNewTarget(event.target.getAttribute("value"), model, "active"); setupTargetsPost(mode, event.target.getAttribute("value"), view, model)}
-        });//view.targets[event.target.value].isShot()});
-            //};
-        //});
+        });
         $("#root").on("click", ".start", function(event) {model.start(model, model.mode)});
         $("#root").on("click", ".quit", function(event) {model.timeOut(model, model.mode)});
         $("#root").on("click", ".leftMode", function(event) {switcher(model, model.mode, "left")});
@@ -57,12 +49,10 @@ function setupTargetsPost(mode, number, view, model){
         view.targets.forEach(element => {
             if(element.isShot(event.pageX, event.pageY)){view.createNewTarget(element.number, model, "active"); setupTargetsPost(mode, element.number, view, model)}
         });
-        //if(view.targets[number].isShot(event.pageX, event.pageY)){ view.createNewTarget(number, model, "active"); setupTargetsPost(mode, number, view, model)}
     });
 }
 
 function switcher(model, mode, direction){
-    console.log(mode, direction);
     if(mode == 0 && direction == "left") {
         model.switchMode(2);
     } else if (mode == 0 && direction == "right"){
@@ -83,22 +73,17 @@ function autoComplete(event){
         event.preventDefault();
     }
     let value = event.target.value + event.originalEvent.key;
-    //event.preventDefault();
-    console.log(event.which);
     async function doAutoComplete(filter){
         let result;
-        console.log(filter);
         result = await axios ({
             method: 'get',
             url: `/userData/filter/${filter}`,
         }).catch(function(error){
-            //console.log(error.response.data);
             let text = error.response.data;
             $(".error").html(`${text}`);
         });
         if(result != undefined){
             $(".formScoreAuto").html(result.data[0]);
-            console.log(result.data[0]);
         }
     }
     doAutoComplete(value);
