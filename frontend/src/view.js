@@ -551,41 +551,46 @@ export default class View {
         let score = [model.score.up, model.score.careful, model.score.quick];
         let level = model.level;
         let crosshair = model.crosshair;
-        async function doSignUp(user, pass, score, level, crosshair){
-            let result;
-            result = await axios ({
-                method: 'post',
-                url: '/userData',
-                data: {
-                    username: user,
-                    password: pass,
-                    score: score,
-                    level: level,
-                    crosshair: crosshair,
+        if(user == null || user == undefined || user == "" || pass == null || pass == undefined || pass == ""){
+
+        } else {
+            async function doSignUp(user, pass, score, level, crosshair){
+                let result;
+                result = await axios ({
+                    method: 'post',
+                    url: '/userData',
+                    data: {
+                        username: user,
+                        password: pass,
+                        score: score,
+                        level: level,
+                        crosshair: crosshair,
+                    }
+                }).catch(function(error){
+                    //console.log(error.response.data);
+                    let text = error.response.data;
+                    $(".error").html(`${text}`);
+                });
+    
+                if (result != undefined){
+                    model.resetting = false;
+                    model.user = user;
+                    model.pass = pass;
+                    model.loggedIn = true;
+                    $(".logOut").css("background-color","");
+                    $(".save").css("background-color","");
+                    $(".delete").css("background-color","");
+                    $(".signUp").css("background-color","gray");
+                    $(".logIn").css("background-color","gray");
+                    $(".form").remove();
+                    console.log("yay!");
                 }
-            }).catch(function(error){
-                //console.log(error.response.data);
-                let text = error.response.data;
-                $(".error").html(`${text}`);
-            });
-
-            if (result != undefined){
-                model.resetting = false;
-                model.user = user;
-                model.pass = pass;
-                model.loggedIn = true;
-                $(".logOut").css("background-color","");
-                $(".save").css("background-color","");
-                $(".delete").css("background-color","");
-                $(".signUp").css("background-color","gray");
-                $(".logIn").css("background-color","gray");
-                $(".form").remove();
-                console.log("yay!");
+                
+    
             }
-            
-
+            doSignUp(user, pass, score, level, crosshair);
         }
-        doSignUp(user, pass, score, level, crosshair);
+        
     }
 
     handleLogIn(model, event){
