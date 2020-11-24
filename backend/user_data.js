@@ -25,7 +25,11 @@ UserData.getAllUsernames = () => {
 UserData.getAllScores = (mode) => {
     let leaders = [];
     leaders[0] = Object.keys(stored_data.data).map((username => {return username;}));
-    leaders[1] = Object.keys(stored_data.data).map((score => {return score[mode];}));
+    leaders[1] = [];
+    for (let i = 0; i < leaders[0].length; i++) {
+        let user = stored_data.get(leaders[0][i]);
+        leaders[1][i] = user.score[mode];
+    }
     let result = [];
     for (let i = 0; i < leaders[0].length; i++) {
         result[i] = [leaders[0][i], leaders[1][i]];
