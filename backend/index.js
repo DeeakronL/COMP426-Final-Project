@@ -48,6 +48,16 @@ app.get('/userData/scores/:username', (req, res) => {
     return;
 })
 
+app.get('/userData/filter/:filterTerm', (req, res) => {
+    let u = UserData.getAllUsernamesFiltered(req.params.filterTerm);
+    if (u == null) {
+        res.status(404).send("Names not found");
+        return;
+    }
+    res.json(u);
+    return;
+})
+
 app.post('/userData', (req, res) => {
     let {username, password, score, level, crosshair} = req.body;
     let u = UserData.create(username,password,score,level,crosshair);
