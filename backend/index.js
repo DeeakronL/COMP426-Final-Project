@@ -25,7 +25,7 @@ app.get('/userData/:mode', (req, res) => {
     return;
 })
 
-app.get('/userData/:username/:password', (req, res) => {
+app.get('/userData/users/:username/:password', (req, res) => {
     let u = UserData.findByUsername(req.params.username,req.params.password);
     if (u[0] == null) {
         res.status(404).send("Username not found");
