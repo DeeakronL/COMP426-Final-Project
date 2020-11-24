@@ -46,6 +46,7 @@ export default class View {
         model.onBang((gameState) => {this.bang(model)});
         model.onCrosshair((gameState) => {this.updateCursor(gameState.crosshair)});
         model.onLevelUp((gameState) => {this.updateLevel(gameState.level)});
+        model.onLeaderChange((gameState) => {this.updateLeaders(model)});
         this.reset = true;
         let view = this;
         model.onModeChange((gameState) => {this.setupTargets(model.mode, view, model, view.setup); this.newBack()})
@@ -667,7 +668,7 @@ export default class View {
                 });
     
                 if (result != undefined){
-                    
+                    model.save();
                 }
             }
             doSave(model.user, model.pass, score, level, crosshair);
@@ -756,16 +757,26 @@ export default class View {
             });
             if (result != undefined){
                 let top10 = result.data;
-                $(`.top1`).html(`${top10[0][0]}<br>${top10[1][0]}`);
-                $(`.top2`).html(`${top10[0][1]}<br>${top10[1][1]}`);
-                $(`.top3`).html(`${top10[0][2]}<br>${top10[1][2]}`);
-                $(`.top4`).html(`${top10[0][3]}<br>${top10[1][3]}`);
-                $(`.top5`).html(`${top10[0][4]}<br>${top10[1][4]}`);
-                $(`.top6`).html(`${top10[0][5]}<br>${top10[1][5]}`);
-                $(`.top7`).html(`${top10[0][6]}<br>${top10[1][6]}`);
-                $(`.top8`).html(`${top10[0][7]}<br>${top10[1][7]}`);
-                $(`.top9`).html(`${top10[0][8]}<br>${top10[1][8]}`);
-                $(`.top10`).html(`${top10[0][9]}<br>${top10[1][9]}`);
+                console.log(top10);
+                let type = "";
+                if(mode == 0){
+                    type = "Up";
+                } else if (mode == 1){
+                    type = "Careful";
+                } else if (mode == 2){
+                    type = "Quick";
+                }
+                $(`.top`).html(`Top 10: <br>Shoot 'em ${type}`);
+                $(`.top1`).html(`${top10[0][0]}<br>${Math.floor(top10[0][1])}`);
+                $(`.top2`).html(`${top10[1][0]}<br>${Math.floor(top10[1][1])}`);
+                $(`.top3`).html(`${top10[2][0]}<br>${Math.floor(top10[2][1])}`);
+                $(`.top4`).html(`${top10[3][0]}<br>${Math.floor(top10[3][1])}`);
+                $(`.top5`).html(`${top10[4][0]}<br>${Math.floor(top10[4][1])}`);
+                $(`.top6`).html(`${top10[5][0]}<br>${Math.floor(top10[5][1])}`);
+                $(`.top7`).html(`${top10[6][0]}<br>${Math.floor(top10[6][1])}`);
+                $(`.top8`).html(`${top10[7][0]}<br>${Math.floor(top10[7][1])}`);
+                $(`.top9`).html(`${top10[8][0]}<br>${Math.floor(top10[8][1])}`);
+                $(`.top10`).html(`${top10[9][0]}<br>${Math.floor(top10[9][1])}`);
             }
         }
         doLeaders(mode);

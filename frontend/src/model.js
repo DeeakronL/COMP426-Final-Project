@@ -28,7 +28,12 @@ export default class Model {
         }
         this.mode = 0;
         this.updateListeners(Model.Event.LEVELUP);
+        this.updateListeners(Model.Event.LEADER);
         //this.starting = "no";
+    }
+
+    save() {
+        this.updateListeners(Model.Event.LEADER);
     }
 
     getGameState() {
@@ -72,6 +77,7 @@ export default class Model {
         } else if(this.starting == "no"){
             this.mode = mode;
             this.updateListeners(Model.Event.MODE);
+            this.updateListeners(Model.Event.LEADER);
         }
     }
 
@@ -147,6 +153,10 @@ export default class Model {
 
     onLevelUp(callback){
         this.addListener(callback, Model.Event.LEVELUP);
+    }
+
+    onLeaderChange(callback){
+        this.addListener(callback, Model.Event.LEADER);
     }
 
     quickTime(model){
@@ -303,4 +313,5 @@ Model.Event = {
     BANG: 6,
     CROSSHAIR: 7,
     LEVELUP: 8,
+    LEADER: 9
 }
