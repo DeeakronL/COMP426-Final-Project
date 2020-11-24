@@ -202,7 +202,7 @@ export default class View {
             .css('left', '25px')
             .css('top', '150px')
             .css('text-align', 'center')
-            .css('background-color','saddlebrown');
+            .css('background-color','sandybrown');
         let leadersTop4 = $(`<div style="width:100px;height:40px;border:1px solid #000" class="top4">4:</div>`)
             .css('position', 'absolute')
             .css('left', '25px')
@@ -258,7 +258,7 @@ export default class View {
         leader.append(leadersTop10);
         this.setup = "done";
 
-
+        this.updateLeaders(model);
 
         /*async function getLeaders(){
             let result = await axios ({
@@ -740,6 +740,35 @@ export default class View {
 
     updateCursor(crosshair){
         $(".window").css('cursor',`url('/public/crosshair_${crosshair}.png') 50.5 50.5, auto`);
+    }
+
+    updateLeaders(model){
+        let mode = model.mode;
+        async function doLeaders(mode){
+            let result;
+            result = await axios ({
+                method: 'get',
+                url: `/userData/${mode}`,
+            }).catch(function(error){
+                //console.log(error.response.data);
+                let text = error.response.data;
+                $(".error").html(`${text}`);
+            });
+            if (result != undefined){
+                let top10 = result.data;
+                $(`.top1`).html(`${top10[0][0]}<br>${top10[1][0]}`);
+                $(`.top2`).html(`${top10[0][1]}<br>${top10[1][1]}`);
+                $(`.top3`).html(`${top10[0][2]}<br>${top10[1][2]}`);
+                $(`.top4`).html(`${top10[0][3]}<br>${top10[1][3]}`);
+                $(`.top5`).html(`${top10[0][4]}<br>${top10[1][4]}`);
+                $(`.top6`).html(`${top10[0][5]}<br>${top10[1][5]}`);
+                $(`.top7`).html(`${top10[0][6]}<br>${top10[1][6]}`);
+                $(`.top8`).html(`${top10[0][7]}<br>${top10[1][7]}`);
+                $(`.top9`).html(`${top10[0][8]}<br>${top10[1][8]}`);
+                $(`.top10`).html(`${top10[0][9]}<br>${top10[1][9]}`);
+            }
+        }
+        doLeaders(mode);
     }
 }
 
